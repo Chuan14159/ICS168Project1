@@ -123,7 +123,7 @@ public class PlayerController : NetworkBehaviour
 
     public void MoveToRandomSpawnPoint()
     {
-        transform.position = new Vector3(Random.Range(0f, 7f), Random.Range(0f, 7f), 10);
+        transform.position = new Vector3(Random.Range(0f, 4f), 10, Random.Range(0f, 4f));
     }
 
     public void OnFlagChange(string color)

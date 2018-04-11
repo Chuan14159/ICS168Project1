@@ -189,7 +189,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1580168133952100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.9656963, y: 0.5, z: 1.3376572}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4606937633120764}
@@ -403,14 +403,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentPlayerColor: {r: 0, g: 0, b: 0, a: 0}
-  Direction: {fileID: 0}
+  Direction: {fileID: 212456582392983920}
   Name: 
   FlagColor: 
   NamePrefab: {fileID: 114000011193756632, guid: 057c76351036d3146aa7bb6088db1dbe,
     type: 2}
   NameTransform: {fileID: 4814088450466964}
   Shape: {fileID: 1106563639499132}
-  Flag: {fileID: 1822901096607304}
+  Flag: {fileID: 1713036936707216}
 --- !u!114 &114562497446474818
 MonoBehaviour:
   m_ObjectHideFlags: 1
