@@ -549,8 +549,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7ad25776d221440ad92f5c88597719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 0
+  force: 90
   PlayerCam: {fileID: 20147330814340768}
+  throwable_Object: {fileID: 1566530861340252, guid: 73bb1e507810d6449a62f56f7be12b53,
+    type: 2}
+  Player: {fileID: 1580168133952100}
+  constant: 10
 --- !u!114 &114916477559034798
 MonoBehaviour:
   m_ObjectHideFlags: 1

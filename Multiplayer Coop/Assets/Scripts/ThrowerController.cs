@@ -8,10 +8,12 @@ public class ThrowerController : MonoBehaviour {
     public float force;
     private bool canThrow;
     public Camera PlayerCam;
-
+    public GameObject throwable_Object;
+    public GameObject Player;
+    public int constant;
 	void Start () {
-        force = 10.0f;
-        canThrow = false;
+        force = 1f;
+        canThrow = true;
 	}
 	
 	// Update is called once per frame
@@ -27,6 +29,12 @@ public class ThrowerController : MonoBehaviour {
 
     protected void Throw()
     {
-
+        GameObject throwO = Instantiate(throwable_Object, Player.transform.position + Vector3.up, Player.transform.rotation);
+        throwO.GetComponent<Rigidbody>().AddForce
+        (
+            (throwO.transform.forward * Mathf.Cos(Mathf.Deg2Rad * force) + 
+            throwO.transform.up * Mathf.Sin(Mathf.Deg2Rad * force)) * constant,
+            ForceMode.Impulse
+        );
     }
 }
