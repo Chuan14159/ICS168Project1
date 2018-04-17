@@ -25,6 +25,13 @@ public static class Utils {
         }
         return new Color(r, g, b, a);
     }
+
+    // Changes the color of a material to a new one
+    public static void ChangeColor (this MeshRenderer mr, Color newColor)
+    {
+        mr.material = new Material(mr.material);
+        mr.material.color = newColor;
+    }
 	#endregion
 	
 	#region Coroutines

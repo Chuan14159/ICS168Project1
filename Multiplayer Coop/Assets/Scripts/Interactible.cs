@@ -72,8 +72,7 @@ public class Interactible : MonoBehaviour {
         {
             set = true;
             TeamID = team;
-            _meshRenderer.material = new Material(_meshRenderer.material);
-            _meshRenderer.material.color = team.Color;
+            _meshRenderer.ChangeColor(team.Color);
         }
     }
 	#endregion
