@@ -11,19 +11,30 @@ using Random = UnityEngine.Random;
 
 public class PlayerController : NetworkBehaviour
 {
-    private CharacterController _characterController;
+    public Transform LookAt;
+    public Transform camTransform;
 
-    private float _fallVelocity;
-    private readonly float _fallVelocityMax = 20f;
-    private readonly float _forwardMaxSpeed = 5f;
+    public Camera cam;
 
-    private float _forwardSpeed;
+    protected float distance = 10.0f;
+    protected float currentX = 0.0f;
+    protected float currentY = 0.0f;
+    protected float sensitivityX = 0.0f;
+    protected float sensitivityY = 0.0f;
 
-    private readonly float _yDeathValue = -20f;
-    private readonly float _rotationMaxVelocity = 270;
+    protected CharacterController _characterController;
 
-    //private Vector3 _rotationVelocity;
-    private float _rotationVelocity;
+    protected float _fallVelocity;
+    protected readonly float _fallVelocityMax = 20f;
+    protected readonly float _forwardMaxSpeed = 5f;
+
+    protected float _forwardSpeed;
+
+    protected readonly float _yDeathValue = -20f;
+    protected readonly float _rotationMaxVelocity = 270;
+
+    //protected Vector3 _rotationVelocity;
+    protected float _rotationVelocity;
 
     public Color CurrentPlayerColor;
     public SpriteRenderer Direction;
@@ -34,7 +45,7 @@ public class PlayerController : NetworkBehaviour
     [SyncVar(hook= "OnFlagChange")]
     public string FlagColor = "";
 
-    private Text _nameObject;
+    protected Text _nameObject;
     public Text NamePrefab;
 
     public Transform NameTransform;
@@ -43,7 +54,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject Flag;
 
     // Use this for initialization
-    private void Awake()
+    protected void Awake()
     {
         _characterController = GetComponent<CharacterController>();
         _characterController.detectCollisions = false;
@@ -78,7 +89,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     // Update is called once per frame
-    private void Update()
+    protected void Update()
     {
         // Ignore input from other players
         if (!isLocalPlayer)
@@ -99,7 +110,7 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    private void UpdateMovement()
+    protected void UpdateMovement()
     {
         var moveDirection = transform.forward*_forwardSpeed*Time.deltaTime;
 
@@ -149,13 +160,13 @@ public class PlayerController : NetworkBehaviour
         Flag.GetComponent<MeshRenderer>().material.color = BmHelper.HexToColor(color);
     }
 
-    private void OnTriggerEnter(Collider collider)
+    protected void OnTriggerEnter(Collider collider)
     {
         if (!isServer)
             return;
     }
 
-    private void OnDestroy()
+    protected void OnDestroy()
     {
         // Cleanup the name object
         if (_nameObject != null)

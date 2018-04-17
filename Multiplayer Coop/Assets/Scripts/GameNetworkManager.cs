@@ -8,7 +8,8 @@ public class GameNetworkManager : NetworkManager
 {
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
     {
-        SpawnPlayer(conn, "Player", "carrot");
+       SpawnPlayer(conn, "Player", "carrot");
+       //SpawnPlayer(conn, "Tester", "carrot");
     }
 
     /// <summary>
@@ -20,7 +21,7 @@ public class GameNetworkManager : NetworkManager
     {
         // Create an instance
         var player = Instantiate(Resources.Load<PlayerController>("Prefabs/Player"));
-
+        //var player = Instantiate(Resources.Load<PlayerController>("Prefabs/Tester"));
         if (position == null)
         {
             // Nove to random position, of no position was given
