@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Barebones.MasterServer;
 using Barebones.Utils;
@@ -54,12 +55,24 @@ public class PlayerController : NetworkBehaviour
 
     public GameObject Flag;
 
+    protected Collider floorDetector;
+    protected List<Collider> floorCollisions;
+    public bool Grounded
+    {
+        get
+        {
+            return floorCollisions.Count > 0;
+        }
+    }
+
     // Use this for initialization
     protected void Awake()
     {
         _characterController = GetComponent<CharacterController>();
         _characterController.detectCollisions = false;
         _rigidbody = GetComponent<Rigidbody>();
+        floorCollisions = new List<Collider>();
+        floorDetector = GetComponent<Collider>();
 
         StartCoroutine(DisplayName());
     }
@@ -90,21 +103,12 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    // Update is called once per frame
     protected void Update ()
     {
         // Ignore input from other players
         if (!isLocalPlayer)
             return;
-    }
-
-    // Update is called once per frame
-    protected void FixedUpdate ()
-    {
-        // Ignore input from other players
-        if (!isLocalPlayer)
-            return;
-
-        UpdateMovement();
 
         // Input
         if (GameUi.Instance != null && GameUi.Instance.IsAutoWalk)
@@ -116,7 +120,20 @@ public class PlayerController : NetworkBehaviour
         {
             _forwardSpeed = Input.GetAxis("Vertical") * _forwardMaxSpeed;
             _rotationVelocity = Input.GetAxis("Horizontal") * _rotationMaxVelocity;
+            if (Input.GetButtonDown("Jump") && Grounded)
+            {
+                _rigidbody.AddForce(Mathf.Sqrt(2 * 1.1f * -Physics.gravity.y * transform.lossyScale.y) * Vector3.up, ForceMode.VelocityChange);
+            }
         }
+    }
+
+    protected void FixedUpdate()
+    {
+        // Ignore input from other players
+        if (!isLocalPlayer)
+            return;
+
+        UpdateMovement();
     }
 
     protected void UpdateMovement ()
@@ -160,10 +177,20 @@ public class PlayerController : NetworkBehaviour
         Flag.GetComponent<MeshRenderer>().material.color = BmHelper.HexToColor(color);
     }
 
-    protected void OnTriggerEnter(Collider collider)
+    protected void OnTriggerEnter(Collider other)
     {
-        if (!isServer)
-            return;
+        if (other.CompareTag("Terrain"))
+        {
+            floorCollisions.Add(other);
+        }
+    }
+
+    protected void OnTriggerExit(Collider other)
+    {
+        if (floorCollisions.Contains(other))
+        {
+            floorCollisions.Remove(other);
+        }
     }
 
     protected void OnDestroy()
