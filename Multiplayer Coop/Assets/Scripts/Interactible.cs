@@ -74,6 +74,10 @@ public class Interactible : MonoBehaviour {
             TeamID = team;
             _meshRenderer.ChangeColor(team.Color);
         }
+        else
+        {
+            Debug.LogWarning("Object is already set.");
+        }
     }
 	#endregion
 	
