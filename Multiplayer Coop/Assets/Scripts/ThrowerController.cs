@@ -12,6 +12,7 @@ public class ThrowerController : MonoBehaviour {
     public GameObject Player;
     public int constant;
 	void Start () {
+        force = 1f;
         canThrow = true;
 	}
 	
@@ -28,7 +29,7 @@ public class ThrowerController : MonoBehaviour {
 
     protected void Throw()
     {
-        GameObject throwO = Instantiate(throwable_Object, Player.transform.position + Vector3.up * 2, Player.transform.rotation);
+        GameObject throwO = Instantiate(throwable_Object, Player.transform.position + Vector3.up, Player.transform.rotation);
         throwO.GetComponent<Rigidbody>().AddForce
         (
             (throwO.transform.forward * Mathf.Cos(Mathf.Deg2Rad * force) + 

@@ -23,7 +23,6 @@ public class PlayerController : NetworkBehaviour
     protected float sensitivityY = 0.0f;
 
     protected CharacterController _characterController;
-    protected Rigidbody _rigidbody;
 
     protected float _fallVelocity;
     protected readonly float _fallVelocityMax = 20f;
@@ -59,7 +58,6 @@ public class PlayerController : NetworkBehaviour
     {
         _characterController = GetComponent<CharacterController>();
         _characterController.detectCollisions = false;
-        _rigidbody = GetComponent<Rigidbody>();
 
         StartCoroutine(DisplayName());
     }
@@ -90,15 +88,8 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    protected void Update ()
-    {
-        // Ignore input from other players
-        if (!isLocalPlayer)
-            return;
-    }
-
     // Update is called once per frame
-    protected void FixedUpdate ()
+    protected void Update()
     {
         // Ignore input from other players
         if (!isLocalPlayer)
@@ -119,22 +110,31 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    protected void UpdateMovement ()
+    protected void UpdateMovement()
     {
         var moveDirection = transform.forward*_forwardSpeed*Time.deltaTime;
 
+        // Reset fall velocity if grounded
+        if (_characterController.isGrounded)
+            _fallVelocity = 0;
+
+        // Gravity application
+        _fallVelocity += _fallVelocityMax*Time.deltaTime;
+        _fallVelocity = Mathf.Min(_fallVelocity, _fallVelocityMax);
+        moveDirection.y -= _fallVelocity*Time.deltaTime;
+
         // Movement update
-        _rigidbody.MovePosition(_rigidbody.position + moveDirection);
-        _rigidbody.MoveRotation(Quaternion.Euler(_rigidbody.rotation.eulerAngles + Vector3.up*_rotationVelocity*Time.deltaTime));
+        _characterController.Move(moveDirection);
+        transform.Rotate(Vector3.up*_rotationVelocity*Time.deltaTime);
 
         // Death and "respawn"
-        if (_rigidbody.position.y < _yDeathValue)
+        if (transform.position.y < _yDeathValue)
             MoveToRandomSpawnPoint();
     }
 
     public void MoveToRandomSpawnPoint()
     {
-        _rigidbody.MovePosition(new Vector3(Random.Range(0f, 4f), 10, Random.Range(0f, 4f)));
+        transform.position = new Vector3(Random.Range(0f, 4f), 10, Random.Range(0f, 4f));
     }
 
     public void OnFlagChange(string color)

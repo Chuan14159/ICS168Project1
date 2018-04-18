@@ -29,7 +29,9 @@ public class ThirdPersonCam : MonoBehaviour {
         {
             currentY += Input.GetAxis("Mouse X");
             currentX += -Input.GetAxis("Mouse Y");
+            Debug.Log("Before Clamp: " + currentX);
             currentX = Mathf.Clamp(currentX, MIN_X, MAX_X);
+            Debug.Log("After Clamp: " + currentX);
         }
     }
 
