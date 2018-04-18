@@ -31,7 +31,6 @@ public class GameController : MonoBehaviour {
 	private void Awake ()
 	{
         Instance = this;
-        SpawnObjects(new Team());
 	}
 
 	// Use this for initialization
