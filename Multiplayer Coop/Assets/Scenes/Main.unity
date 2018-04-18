@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -311,9 +311,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e5213db27067041ae1526ad418b7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  length: 5
-  width: 5
-  heightRange: {x: 0, y: 2}
+  length: 10
+  width: 10
+  heightRange: {x: 0, y: 0.5}
 --- !u!1001 &1203260509
 Prefab:
   m_ObjectHideFlags: 0
@@ -404,7 +404,7 @@ MonoBehaviour:
   m_OfflineScene: 
   m_OnlineScene: 
   m_SpawnPrefabs:
-  - {fileID: 1580168133952100, guid: 4c07958cafeb4e646be32943ee8fc847, type: 2}
+  - {fileID: 0}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -513,7 +513,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1297773114}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!124 &1297773116
 Behaviour:
   m_ObjectHideFlags: 0

@@ -20,17 +20,39 @@ public class Field : MonoBehaviour {
 	// Awake is called before Start
 	private void Awake ()
 	{
-		for (int i = 0; i < length; ++i)
+		for (int i = 0; i < length*3; ++i)
         {
-            for (int j = 0; j < length; ++j)
+            for (int j = 0; j < width*3; ++j)
             {
-                Vector3 scale = new Vector3(1, Random.Range(heightRange.x, heightRange.y), 1);
+                Vector3 scale = new Vector3(1, heightRange.y, 1);
                 Vector3 pos = new Vector3(i, scale.y / 2, j);
                 GameObject g = Instantiate(Resources.Load<GameObject>("Prefabs/Cube"), pos, Quaternion.identity, transform);
                 g.transform.localScale = scale;
             }
         }
-	}
+        
+        for (int i = 0; i < length*2; ++i)
+        {
+            for (int j = 0; j < length*2; ++j)
+            {
+                Vector3 scale = new Vector3(1, Random.Range(heightRange.x, heightRange.y) + heightRange.y, 1);
+                Vector3 pos = new Vector3(i+length/2, scale.y / 2, j+width/2);
+                GameObject g = Instantiate(Resources.Load<GameObject>("Prefabs/Cube2"), pos, Quaternion.identity, transform);
+                g.transform.localScale = scale;
+            }
+        }
+
+        for (int i = 0; i < length; ++i)
+        {
+            for (int j = 0; j < length; ++j)
+            {
+                Vector3 scale = new Vector3(1, Random.Range(heightRange.x, heightRange.y) * 2 + heightRange.y * 2, 1);
+                Vector3 pos = new Vector3(i + length, scale.y / 2, j + width);
+                GameObject g = Instantiate(Resources.Load<GameObject>("Prefabs/Cube3"), pos, Quaternion.identity, transform);
+                g.transform.localScale = scale;
+            }
+        }
+    }
 
 	// Use this for initialization
 	private void Start () 
