@@ -12,11 +12,6 @@ using Random = UnityEngine.Random;
 
 public class PlayerController : NetworkBehaviour
 {
-    public Transform LookAt;
-    public Transform camTransform;
-
-    public Camera cam;
-
     protected float distance = 10.0f;
     protected float currentX = 0.0f;
     protected float currentY = 0.0f;
@@ -55,6 +50,7 @@ public class PlayerController : NetworkBehaviour
 
     public GameObject Flag;
 
+    protected Team team;
     protected Collider floorDetector;
     protected List<Collider> floorCollisions;
     public bool Grounded
@@ -73,7 +69,10 @@ public class PlayerController : NetworkBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         floorCollisions = new List<Collider>();
         floorDetector = GetComponent<Collider>();
-
+        team = new Team();
+        CurrentPlayerColor = team.Color;
+        GameController.Instance.SpawnObjects(team);
+        
         StartCoroutine(DisplayName());
     }
 
@@ -179,7 +178,7 @@ public class PlayerController : NetworkBehaviour
 
     protected void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Terrain"))
+        if (!floorCollisions.Contains(other))
         {
             floorCollisions.Add(other);
         }
@@ -198,6 +197,14 @@ public class PlayerController : NetworkBehaviour
         // Cleanup the name object
         if (_nameObject != null)
             Destroy(_nameObject);
+
+        foreach (Interactible i in FindObjectsOfType<Interactible>())
+        {
+            if (i.TeamID == team)
+            {
+                Destroy(i.gameObject);
+            }
+        }
     }
 
     public IEnumerator DisplayName()

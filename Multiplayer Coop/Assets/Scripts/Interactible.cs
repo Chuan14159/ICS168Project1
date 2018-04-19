@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(MeshRenderer))]
-public class Interactible : MonoBehaviour {
+public class Interactible : NetworkBehaviour {
     #region Attributes
     public static List<GameObject> prefabs;     // A list of game objects to spawn for a team
     [SerializeField]
