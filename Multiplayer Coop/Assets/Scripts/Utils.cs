@@ -32,6 +32,20 @@ public static class Utils {
         mr.material = new Material(mr.material);
         mr.material.color = newColor;
     }
+
+    // Changes the color of materials for a gameobject recursively
+    public static void ChangeColor (this Transform t, Color newColor)
+    {
+        MeshRenderer mr = t.GetComponent<MeshRenderer>();
+        if (mr != null)
+        {
+            mr.ChangeColor(newColor);
+        }
+        foreach (Transform ct in t)
+        {
+            ct.ChangeColor(newColor);
+        }
+    }
 	#endregion
 	
 	#region Coroutines

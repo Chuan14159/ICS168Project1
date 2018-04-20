@@ -24,7 +24,8 @@ GameObject:
   - component: {fileID: 23487988307058914}
   - component: {fileID: 54703519444707706}
   - component: {fileID: 114357315649084340}
-  - component: {fileID: 114279665275153846}
+  - component: {fileID: 114228938783291874}
+  - component: {fileID: 114690751900289292}
   m_Layer: 0
   m_Name: Object
   m_TagString: Object
@@ -113,17 +114,38 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114279665275153846
+--- !u!114 &114228938783291874
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1566530861340252}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99e01df26e259cb478a48913f0ffd129, type: 3}
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 115
+    i1: 187
+    i2: 30
+    i3: 80
+    i4: 120
+    i5: 16
+    i6: 214
+    i7: 68
+    i8: 154
+    i9: 98
+    i10: 245
+    i11: 111
+    i12: 123
+    i13: 225
+    i14: 43
+    i15: 83
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114357315649084340
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -135,3 +157,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 597b132c8358ad54e9edef056f3ed571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114690751900289292
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1566530861340252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1

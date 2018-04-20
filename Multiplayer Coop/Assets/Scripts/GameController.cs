@@ -48,13 +48,13 @@ public class GameController : MonoBehaviour {
 	
 	#region Methods
 	// Spawn the objects for a certain team
-    private void SpawnObjects (Team team)
+    public void SpawnObjects (Team team)
     {
         foreach (GameObject g in prefabs)
         {
             if (g.GetComponent<Interactible>() != null)
             {
-                Vector3 pos = new Vector3(Random.Range(0f, 4f), 10, Random.Range(0f, 4f));
+                Vector3 pos = new Vector3(Random.Range(0f, 40f), 10, Random.Range(0f, 40f));
                 Instantiate(g, pos, Quaternion.identity).GetComponent<Interactible>().SetObject(team);
             }
         }
