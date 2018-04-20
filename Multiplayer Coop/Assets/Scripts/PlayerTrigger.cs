@@ -5,15 +5,14 @@ using UnityEngine;
 public class PlayerTrigger : MonoBehaviour {
 
     private bool isPicking = false;
-    private GameObject picked;
+    private GameObject picked = null;
     private bool isPickingPlayer = false;
-    private List<GameObject> objectStore = new List<GameObject>();
-
+    private List<GameObject> objectStore;
     public GameObject player;
     
     // Use this for initialization
     void Start () {
-		
+        objectStore = new List<GameObject>();
 	}
 	
 	// Update is called once per frame
@@ -21,40 +20,44 @@ public class PlayerTrigger : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.F))
         {
             isPicking = !isPicking;
-            if (isPicking && objectStore.Count > 0)
-            {
-                picked = objectStore[0];
-                if (picked.tag == "Object")
-                {
-                    picked.transform.GetComponent<Rigidbody>().MovePosition(transform.position);
-                    picked.transform.GetComponent<Rigidbody>().MoveRotation(transform.rotation);
-                }
-                else if (picked.tag == "Player")
-                {
-                    picked.transform.parent.GetComponent<Rigidbody>().MovePosition(transform.position - transform.forward + transform.up);
-                    picked.transform.parent.GetComponent<Rigidbody>().MoveRotation(transform.rotation);
-                }
-            }
         }
-        Debug.Log(objectStore.Count);
+        if (isPicking && picked != null)
+        {
+            if(picked.tag == "Object")
+            {
+                picked.transform.GetComponent<Rigidbody>().MovePosition(transform.position);
+                picked.transform.GetComponent<Rigidbody>().MoveRotation(transform.rotation);
+            }
+            else if (picked.tag == "Player")
+            {
+                picked.transform.parent.GetComponent<Rigidbody>().MovePosition(transform.position - transform.forward + transform.up);
+                picked.transform.parent.GetComponent<Rigidbody>().MoveRotation(transform.rotation);
+            }
+        }       
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if ((other.tag == "Object" || other.tag == " Player") && !objectStore.Contains(other.gameObject))
+        if ((other.tag == "Object" || other.tag == "Player") && !objectStore.Contains(other.gameObject))
         {
-            objectStore.Add(other.gameObject);
+            {
+                objectStore.Add(other.gameObject);
+                picked = objectStore[0];
+            }   
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
-        if ((other.tag == "Object" || other.tag == " Player") && objectStore.Contains(other.gameObject))
+        if (objectStore.Count > 0 && objectStore.Contains(other.gameObject))
         {
-            objectStore.Remove(other.gameObject);
+            if (other.tag == "Player" && isPicking == false)
+            {
+                picked = null;
+                objectStore.Remove(other.gameObject);
+            }
+            else objectStore.Remove(other.gameObject);
         }
     }
-
     /*private void OnTriggerStay(Collider other)
     {
         //Debug.Log(isPicking);
@@ -80,5 +83,7 @@ public class PlayerTrigger : MonoBehaviour {
                 picked.transform.rotation = transform.rotation;
             }
         }
+         if (picked.tag == "Object")
+               
     }*/
 }
