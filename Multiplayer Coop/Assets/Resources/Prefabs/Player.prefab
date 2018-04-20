@@ -647,6 +647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef68fb6a5453d664aa7d157aad6bdf67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1327504081694088}
 --- !u!114 &114492380461763498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -710,9 +711,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06bd27dccb9b604488f0de713b8da7e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LookAt: {fileID: 0}
-  camTransform: {fileID: 0}
-  cam: {fileID: 0}
   CurrentPlayerColor: {r: 0, g: 0, b: 0, a: 0}
   Direction: {fileID: 212319941849882560}
   Name: Player

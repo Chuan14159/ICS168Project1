@@ -6,6 +6,7 @@ public class PlayerTrigger : MonoBehaviour {
 
     private bool isPicking = false;
     private GameObject picked;
+    public GameObject player;
     
     // Use this for initialization
     void Start () {
@@ -20,7 +21,12 @@ public class PlayerTrigger : MonoBehaviour {
     private void OnTriggerStay(Collider other)
     {
         //Debug.Log(isPicking);
-        if(other.tag == "Object")
+        if (other.tag != "Object" || other.GetComponent<Interactible>().TeamID == null)
+        {
+            return;
+        }
+
+        if(other.GetComponent<Interactible>().TeamID.ID == player.GetComponent<PlayerController>().team.ID)
         {
             if (Input.GetKeyDown(KeyCode.F))
             {

@@ -50,7 +50,7 @@ public class PlayerController : NetworkBehaviour
 
     public GameObject Flag;
 
-    protected Team team;
+    public Team team;
     protected Collider floorDetector;
     protected List<Collider> floorCollisions;
     public bool Grounded
