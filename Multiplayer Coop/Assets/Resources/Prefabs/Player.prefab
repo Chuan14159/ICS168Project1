@@ -647,6 +647,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef68fb6a5453d664aa7d157aad6bdf67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPicking: 0
+  isPickingPlayer: 0
   player: {fileID: 1327504081694088}
 --- !u!114 &114492380461763498
 MonoBehaviour:
@@ -699,7 +701,8 @@ MonoBehaviour:
     type: 2}
   Player: {fileID: 1327504081694088}
   Arrow: {fileID: 1843510786603534}
-  ThrowForce: 10
+  ThrowForce: 100
+  AngleSensitivity: 5
 --- !u!114 &114900847832453902
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -677,6 +677,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 114877674772396322, guid: f3445d23f9e65d24cbffd03b95094a82,
+        type: 2}
+      propertyPath: AngleSensitivity
+      value: 101
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f3445d23f9e65d24cbffd03b95094a82, type: 2}
   m_IsPrefabParent: 0
