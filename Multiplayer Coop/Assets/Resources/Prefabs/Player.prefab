@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 65631422410785404}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 65536994207067906}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -236,7 +236,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1327504081694088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.24104, y: 5.24, z: 3.7}
+  m_LocalPosition: {x: 0, y: 35.71, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4934768201570674}
@@ -647,6 +647,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef68fb6a5453d664aa7d157aad6bdf67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPicking: 0
+  isPickingPlayer: 0
   player: {fileID: 1327504081694088}
 --- !u!114 &114492380461763498
 MonoBehaviour:
@@ -699,7 +701,8 @@ MonoBehaviour:
     type: 2}
   Player: {fileID: 1327504081694088}
   Arrow: {fileID: 1843510786603534}
-  ThrowForce: 10
+  ThrowForce: 100
+  AngleSensitivity: 5
 --- !u!114 &114900847832453902
 MonoBehaviour:
   m_ObjectHideFlags: 1
