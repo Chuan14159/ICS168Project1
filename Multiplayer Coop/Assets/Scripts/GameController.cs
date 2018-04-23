@@ -59,6 +59,13 @@ public class GameController : MonoBehaviour {
             }
         }
     }
+
+    // Restart the game if needed
+    public void RestartGame ()
+    {
+        Destroy(FindObjectOfType<Field>().gameObject);
+        Instantiate(Resources.Load<GameObject>("Prefabs/Field"));
+    }
 	#endregion
 	
 	#region Coroutines

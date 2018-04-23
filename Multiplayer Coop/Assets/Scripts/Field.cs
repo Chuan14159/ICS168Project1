@@ -63,6 +63,11 @@ public class Field : NetworkBehaviour {
                 GameObject g = Instantiate(Resources.Load<GameObject>("Prefabs/Cube"), transform);
                 g.transform.localScale = scale;
                 g.transform.localPosition = pos;
+                if (j == 4 && i == 4)
+                {
+                    GameObject e = Instantiate(Resources.Load<GameObject>("Prefabs/Goal"), transform);
+                    e.GetComponent<Goal>().MoveToPlatform(g.transform);
+                }
             }
         }
     }
