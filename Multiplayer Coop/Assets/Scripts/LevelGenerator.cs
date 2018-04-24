@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
+
     public GameObject floorCube;
     public GameObject ceilingCube;
     public GameObject levelGoal;
@@ -15,21 +16,17 @@ public class LevelGenerator : MonoBehaviour
     private float levelWidth = 30f;
     private float levelLength = 30f;
     private float maxHeight = 30f;
-    private float wallHeight = 52.5f;
+    private float wallHeight = 72.5f;
     private float beginX;
     private float beginZ;
-    private float perlinScale = 10f;
+    private float perlinScale = 15f;
     private float offsetX;
     private float offsetZ;
 
     private int startAreaOffset = 4;
 
-    public static LevelGenerator Instance
-    { get; private set; }
-
 	// Use this for initialization
 	void Start () {
-        Instance = this;
         offsetX = Random.Range(0f, 99999f);
         offsetZ = Random.Range(0f, 99999f);
         levelArray = new List< List< GameObject > >();
@@ -39,13 +36,13 @@ public class LevelGenerator : MonoBehaviour
 
 
     void instantiateLevel(){
-        generateLevel();
+        initializeLevel();
         generateWalls();
         spawner.GetComponent<ObjectSpawner>().spawnItems();
     }
 
 
-    void generateLevel(){
+    void initializeLevel(){
         beginX = -levelWidth * 5f / 2;
         beginZ = -levelLength * 5f / 2;
 
@@ -148,5 +145,50 @@ public class LevelGenerator : MonoBehaviour
         Vector3 ceilingPos = new Vector3(0f, 2.5f + wallHeight/2, 0f);
         GameObject ceiling = Instantiate(ceilingCube, ceilingPos, Quaternion.identity);
         ceiling.transform.localScale += new Vector3(levelWidth*5.5f, 0.0f, levelLength*5.5f);*/
+    }
+
+    void regenerateLevel(){
+
+        offsetX = Random.Range(0f, 99999f);
+        offsetZ = Random.Range(0f, 99999f);
+
+        GameObject highestPointObject = null;
+        float highestPointHeight = 0f;
+
+        //Create the main floor for the level
+        for (int i = 0; i < levelWidth; i++)
+        {
+            List<GameObject> tempList = new List<GameObject>();
+            for (int j = 0; j < levelLength; j++)
+            {
+                GameObject o = levelArray[i][j];
+
+                //This allows us to have a flat starting point in the middle of the map for players to start at
+                if (i < levelWidth / 2 - startAreaOffset || i > levelWidth / 2 + startAreaOffset || j < levelLength / 2 - startAreaOffset || j > levelLength / 2 + startAreaOffset)
+                {
+                    //Reset scale
+                    o.transform.localScale = new Vector3(5f, 1f, 5f);
+
+                    o.transform.localScale += perlinGenerator(i, j);
+
+                    if (o.transform.localScale.y > highestPointHeight)
+                    {
+                        highestPointHeight = o.transform.localScale.y;
+                        highestPointObject = o;
+                    }
+                }
+                o.transform.SetParent(transform);
+                beginZ += 5f;
+            }
+            beginX += 5f;
+            beginZ = -levelLength * 5 / 2;
+            levelArray.Add(tempList);
+        }
+
+        if (highestPointObject != null)
+        {
+            Vector3 goalPos = new Vector3(highestPointObject.transform.position.x, highestPointHeight / 2 + 2f, highestPointObject.transform.position.z);
+            levelGoal.transform.position = goalPos;
+        }
     }
 }
