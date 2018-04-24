@@ -18,8 +18,8 @@ public class PlayerTrigger : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        //if (picked.GetComponent<Interactible>().TeamID.ID == player.GetComponent<PlayerController>().team.ID)
-        //{
+        if (picked.GetComponent<Interactible>().TeamID.ID == player.GetComponent<PlayerController>().team.ID)
+        {
             if (Input.GetKeyDown(KeyCode.F) && picked != null)
             {
                 if (picked.tag == "Player")
@@ -44,7 +44,7 @@ public class PlayerTrigger : MonoBehaviour {
                     ThrowerController.instance.throwable_Object = picked;
                 }
             }
-       //}
+        }
     }
 
     private void OnTriggerEnter(Collider other)
