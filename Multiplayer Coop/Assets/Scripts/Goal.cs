@@ -33,7 +33,7 @@ public class Goal : MonoBehaviour {
     {
         if (other.CompareTag("Player"))
         {
-            //LevelGenerator.Instance.regenLevel();
+            LevelGenerator.Instance.regenerateLevel();
         }
     }
     #endregion

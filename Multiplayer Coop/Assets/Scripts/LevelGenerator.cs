@@ -25,8 +25,12 @@ public class LevelGenerator : MonoBehaviour
 
     private int startAreaOffset = 4;
 
+    public static LevelGenerator Instance
+    { get; private set; }
+
 	// Use this for initialization
 	void Start () {
+        Instance = this;
         offsetX = Random.Range(0f, 99999f);
         offsetZ = Random.Range(0f, 99999f);
         levelArray = new List< List< GameObject > >();
@@ -147,7 +151,7 @@ public class LevelGenerator : MonoBehaviour
         ceiling.transform.localScale += new Vector3(levelWidth*5.5f, 0.0f, levelLength*5.5f);*/
     }
 
-    void regenerateLevel(){
+    public void regenerateLevel(){
 
         offsetX = Random.Range(0f, 99999f);
         offsetZ = Random.Range(0f, 99999f);
