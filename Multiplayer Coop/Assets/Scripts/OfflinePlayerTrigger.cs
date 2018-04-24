@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerTrigger : MonoBehaviour {
+public class OfflinePlayerTrigger : MonoBehaviour {
 
     public bool isPicking = false;
     private GameObject picked = null;
     public bool isPickingPlayer = false;
     private List<GameObject> objectStore;
     public GameObject player;
-    public static PlayerTrigger instance;
+    public static OfflinePlayerTrigger instance;
     // Use this for initialization
     void Start () {
         instance = this;
@@ -18,7 +18,7 @@ public class PlayerTrigger : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        if (picked != null && picked.GetComponent<Interactible>().TeamID.ID == player.GetComponent<PlayerController>().team.ID)
+        if (picked != null && picked.GetComponent<OfflineInteractible>().TeamID.ID == player.GetComponent<OfflinePlayerController>().team.ID)
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
@@ -29,9 +29,14 @@ public class PlayerTrigger : MonoBehaviour {
                         DeletePlayerFromList(picked);
                 }
                 else isPicking = !isPicking;
+                if (!isPicking)
+                {
+                    picked.transform.GetComponent<Rigidbody>().isKinematic = false;
+                }
             }
             if (picked.tag == "Object" && isPicking)
             {
+                picked.transform.GetComponent<Rigidbody>().isKinematic = true;
                 picked.transform.GetComponent<Rigidbody>().MovePosition(transform.position);
                 picked.transform.GetComponent<Rigidbody>().MoveRotation(transform.rotation);
             }
@@ -39,7 +44,7 @@ public class PlayerTrigger : MonoBehaviour {
             {
                 picked.transform.parent.GetComponent<Rigidbody>().MovePosition(transform.position - transform.forward + transform.up);
                 picked.transform.parent.GetComponent<Rigidbody>().MoveRotation(transform.rotation);
-                ThrowerController.instance.throwable_Object = picked;
+                OfflineThrowerController.instance.throwable_Object = picked;
             }
         }
     }
@@ -58,7 +63,7 @@ public class PlayerTrigger : MonoBehaviour {
     {
         if (objectStore.Count > 0 && objectStore.Contains(other.gameObject))
         {
-            if (isPickingPlayer)
+            if (other.gameObject == picked && isPickingPlayer)
                 return;
             objectStore.Remove(other.gameObject);
             isPicking = false;

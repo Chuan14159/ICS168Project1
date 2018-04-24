@@ -66,7 +66,6 @@ public class Field : NetworkBehaviour {
                 if (j == 4 && i == 4)
                 {
                     GameObject e = Instantiate(Resources.Load<GameObject>("Prefabs/Goal"), transform);
-                    e.GetComponent<Goal>().MoveToPlatform(g.transform);
                 }
             }
         }

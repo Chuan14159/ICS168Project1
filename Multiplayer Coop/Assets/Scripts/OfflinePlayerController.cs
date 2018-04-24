@@ -10,7 +10,7 @@ using UnityEngine.Networking.NetworkSystem;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class PlayerController : NetworkBehaviour
+public class OfflinePlayerController : MonoBehaviour
 {
     protected float distance = 10.0f;
     protected float currentX = 0.0f;
@@ -36,10 +36,8 @@ public class PlayerController : NetworkBehaviour
     public Color CurrentPlayerColor;
     public SpriteRenderer Direction;
 
-    [SyncVar]
     public string Name;
 
-    [SyncVar(hook= "OnFlagChange")]
     public string FlagColor = "";
 
     protected Text _nameObject;
@@ -50,6 +48,8 @@ public class PlayerController : NetworkBehaviour
 
     public GameObject Flag;
 
+    [SerializeField]
+    private float jumpHeight;
     public Team team;
     protected Collider floorDetector;
     protected List<Collider> floorCollisions;
@@ -73,6 +73,11 @@ public class PlayerController : NetworkBehaviour
         CurrentPlayerColor = team.Color;
         
         StartCoroutine(DisplayName());
+
+        // Change colors
+        var color = CurrentPlayerColor;
+        Direction.color = new Color(color.r, color.g, color.b, 0.5f);
+        Shape.GetComponent<MeshRenderer>().material.color = color;
     }
 
     public void Setup(string username)
@@ -80,34 +85,9 @@ public class PlayerController : NetworkBehaviour
         Name = username;
     }
 
-    public override void OnStartClient()
-    {
-        SetFlagColor(FlagColor);
-    }
-
-    public override void OnStartAuthority()
-    {
-        base.OnStartAuthority();
-
-        // Change colors
-        var color = CurrentPlayerColor;
-        Direction.color = new Color(color.r, color.g, color.b, 0.5f);
-        Shape.GetComponent<MeshRenderer>().material.color = color;
-
-        // Notify UI
-        if (GameUi.Instance != null)
-        {
-            GameUi.Instance.OnPlayerSpawned(this);
-        }
-    }
-
     // Update is called once per frame
     protected void Update ()
     {
-        // Ignore input from other players
-        if (!isLocalPlayer)
-            return;
-
         // Input
         if (GameUi.Instance != null && GameUi.Instance.IsAutoWalk)
         {
@@ -120,17 +100,13 @@ public class PlayerController : NetworkBehaviour
             _rotationVelocity = Input.GetAxis("Horizontal") * _rotationMaxVelocity;
             if (Input.GetButtonDown("Jump") && Grounded)
             {
-                _rigidbody.AddForce(Mathf.Sqrt(2 * 1.1f * -Physics.gravity.y * transform.lossyScale.y) * Vector3.up, ForceMode.VelocityChange);
+                _rigidbody.AddForce(Mathf.Sqrt(jumpHeight * 2 * 1.1f * -Physics.gravity.y * transform.lossyScale.y) * Vector3.up, ForceMode.VelocityChange);
             }
         }
     }
 
     protected void FixedUpdate()
     {
-        // Ignore input from other players
-        if (!isLocalPlayer)
-            return;
-
         UpdateMovement();
     }
 
@@ -196,14 +172,6 @@ public class PlayerController : NetworkBehaviour
         // Cleanup the name object
         if (_nameObject != null)
             Destroy(_nameObject);
-
-        foreach (Interactible i in FindObjectsOfType<Interactible>())
-        {
-            if (i.TeamID == team)
-            {
-                Destroy(i.gameObject);
-            }
-        }
     }
 
     public IEnumerator DisplayName()

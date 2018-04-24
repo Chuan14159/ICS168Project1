@@ -33,17 +33,13 @@ public class Goal : MonoBehaviour {
     {
         if (other.CompareTag("Player"))
         {
-            GameController.Instance.RestartGame();
+            //LevelGenerator.Instance.regenLevel();
         }
     }
     #endregion
 
     #region Methods
-    // Move to a platform
-    public void MoveToPlatform (Transform platform)
-    {
-        transform.position = platform.position + Vector3.up * (platform.lossyScale.y / 2 + 1f);
-    }
+
     #endregion
 
     #region Coroutines

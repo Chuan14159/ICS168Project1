@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-
     public GameObject floorCube;
     public GameObject ceilingCube;
     public GameObject levelGoal;
@@ -25,8 +24,12 @@ public class LevelGenerator : MonoBehaviour
 
     private int startAreaOffset = 4;
 
+    public static LevelGenerator Instance
+    { get; private set; }
+
 	// Use this for initialization
 	void Start () {
+        Instance = this;
         offsetX = Random.Range(0f, 99999f);
         offsetZ = Random.Range(0f, 99999f);
         levelArray = new List< List< GameObject > >();

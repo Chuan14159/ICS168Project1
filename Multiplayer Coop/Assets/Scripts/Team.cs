@@ -13,7 +13,7 @@ public class Team {
 	public int ID                   // The team's ID
     { get; private set; }                     
     public Color Color              // The team's color
-    { get; private set; }                
+    { get; private set; }     
     #endregion
 
     #region Constructors
