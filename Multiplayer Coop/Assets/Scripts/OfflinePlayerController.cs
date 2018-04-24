@@ -23,7 +23,7 @@ public class OfflinePlayerController : MonoBehaviour
 
     protected float _fallVelocity;
     protected readonly float _fallVelocityMax = 20f;
-    protected readonly float _forwardMaxSpeed = 5f;
+    protected readonly float _forwardMaxSpeed = 15f;
 
     protected float _forwardSpeed;
 

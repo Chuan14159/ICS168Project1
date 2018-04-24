@@ -190,7 +190,7 @@ MonoBehaviour:
   NameTransform: {fileID: 980788935}
   Shape: {fileID: 416734878}
   Flag: {fileID: 97981519}
-  jumpHeight: 2
+  jumpHeight: 3
 --- !u!114 &135442114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -568,11 +568,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4823961032580154, guid: f3445d23f9e65d24cbffd03b95094a82, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4823961032580154, guid: f3445d23f9e65d24cbffd03b95094a82, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114629633057835116, guid: f3445d23f9e65d24cbffd03b95094a82, type: 2}
