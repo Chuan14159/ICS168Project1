@@ -10,17 +10,23 @@ public class OfflinePlayerTrigger : MonoBehaviour {
     private List<GameObject> objectStore;
     public GameObject player;
     public static OfflinePlayerTrigger instance;
+    private bool tryingPick = false;
     // Use this for initialization
     void Start () {
         instance = this;
         objectStore = new List<GameObject>();
 	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
+
+    private void Update()
+    {
+        tryingPick = Input.GetKeyDown(KeyCode.F);        
+    }
+
+    // Update is called once per frame
+    void FixedUpdate () {
         if (picked != null && picked.GetComponent<OfflineInteractible>().TeamID.ID == player.GetComponent<OfflinePlayerController>().team.ID)
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (tryingPick)
             {
                 if (picked.tag == "Player")
                 {
@@ -38,12 +44,10 @@ public class OfflinePlayerTrigger : MonoBehaviour {
             {
                 picked.transform.GetComponent<Rigidbody>().isKinematic = true;
                 picked.transform.GetComponent<Rigidbody>().MovePosition(transform.position);
-                picked.transform.GetComponent<Rigidbody>().MoveRotation(transform.rotation);
             }
             else if (picked.tag == "Player" && isPickingPlayer)
             {
                 picked.transform.parent.GetComponent<Rigidbody>().MovePosition(transform.position - transform.forward + transform.up);
-                picked.transform.parent.GetComponent<Rigidbody>().MoveRotation(transform.rotation);
                 OfflineThrowerController.instance.throwable_Object = picked;
             }
         }

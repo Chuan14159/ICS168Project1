@@ -20,6 +20,7 @@ public class OfflinePlayerController : MonoBehaviour
 
     protected CharacterController _characterController;
     protected Rigidbody _rigidbody;
+    protected OfflineFloorDetection floorD;
 
     protected float _fallVelocity;
     protected readonly float _fallVelocityMax = 20f;
@@ -51,15 +52,6 @@ public class OfflinePlayerController : MonoBehaviour
     [SerializeField]
     private float jumpHeight;
     public Team team;
-    protected Collider floorDetector;
-    protected List<Collider> floorCollisions;
-    public bool Grounded
-    {
-        get
-        {
-            return floorCollisions.Count > 0;
-        }
-    }
 
     // Use this for initialization
     protected void Awake()
@@ -67,8 +59,7 @@ public class OfflinePlayerController : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
         _characterController.detectCollisions = false;
         _rigidbody = GetComponent<Rigidbody>();
-        floorCollisions = new List<Collider>();
-        floorDetector = GetComponent<Collider>();
+        floorD = GetComponentInChildren<OfflineFloorDetection>();
         team = new Team();
         CurrentPlayerColor = team.Color;
         
@@ -98,7 +89,7 @@ public class OfflinePlayerController : MonoBehaviour
         {
             _forwardSpeed = Input.GetAxis("Vertical") * _forwardMaxSpeed;
             _rotationVelocity = Input.GetAxis("Horizontal") * _rotationMaxVelocity;
-            if (Input.GetButtonDown("Jump") && Grounded)
+            if (Input.GetButtonDown("Jump") && floorD.Grounded)
             {
                 _rigidbody.AddForce(Mathf.Sqrt(jumpHeight * 2 * 1.1f * -Physics.gravity.y * transform.lossyScale.y) * Vector3.up, ForceMode.VelocityChange);
             }
@@ -149,22 +140,6 @@ public class OfflinePlayerController : MonoBehaviour
 
         // Inefficient, but works for the demo
         Flag.GetComponent<MeshRenderer>().material.color = BmHelper.HexToColor(color);
-    }
-
-    protected void OnTriggerEnter(Collider other)
-    {
-        if (!floorCollisions.Contains(other))
-        {
-            floorCollisions.Add(other);
-        }
-    }
-
-    protected void OnTriggerExit(Collider other)
-    {
-        if (floorCollisions.Contains(other))
-        {
-            floorCollisions.Remove(other);
-        }
     }
 
     protected void OnDestroy()
