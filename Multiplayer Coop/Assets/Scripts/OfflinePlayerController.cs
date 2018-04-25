@@ -100,6 +100,7 @@ public class OfflinePlayerController : MonoBehaviour
             _rotationVelocity = Input.GetAxis("Horizontal") * _rotationMaxVelocity;
             if (Input.GetButtonDown("Jump") && Grounded)
             {
+                Debug.Log(floorCollisions);
                 _rigidbody.AddForce(Mathf.Sqrt(jumpHeight * 2 * 1.1f * -Physics.gravity.y * transform.lossyScale.y) * Vector3.up, ForceMode.VelocityChange);
             }
         }

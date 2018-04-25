@@ -119,7 +119,7 @@ public class PlayerController : NetworkBehaviour
             _forwardSpeed = Input.GetAxis("Vertical") * _forwardMaxSpeed;
             _rotationVelocity = Input.GetAxis("Horizontal") * _rotationMaxVelocity;
             if (Input.GetButtonDown("Jump") && Grounded)
-            {
+            { 
                 _rigidbody.AddForce(Mathf.Sqrt(2 * 1.1f * -Physics.gravity.y * transform.lossyScale.y) * Vector3.up, ForceMode.VelocityChange);
             }
         }

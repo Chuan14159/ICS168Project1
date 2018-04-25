@@ -57,7 +57,7 @@ public class PlayerTrigger : MonoBehaviour {
     private void OnTriggerExit(Collider other)
     {
         if (objectStore.Count > 0 && objectStore.Contains(other.gameObject))
-        {
+        {   
             if (isPickingPlayer)
                 return;
             objectStore.Remove(other.gameObject);

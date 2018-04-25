@@ -5,8 +5,8 @@ using UnityEngine;
 public class ThirdPersonCam : MonoBehaviour {
 
     #region Attributes
-    private const float MIN_X = 0.0f;
-    private const float MAX_X = 50.0f;
+    private const float MIN_Y = -20f;
+    private const float MAX_Y = 65f;
 
     public Transform lookAt; //player's Pos.
     private Transform camTransform;
@@ -25,15 +25,15 @@ public class ThirdPersonCam : MonoBehaviour {
 
     private void Update()
     {
-        currentY += Input.GetAxis("Mouse X") * sensitivityX;
-        currentX += -Input.GetAxis("Mouse Y") * sensitivityX;
-        currentX = Mathf.Clamp(currentX, MIN_X, MAX_X);
+        //currentY += Input.GetAxis("Mouse X") * sensitivityX;
+        currentY += -Input.GetAxis("Mouse Y") * sensitivityX;
+        currentY= Mathf.Clamp(currentX, MIN_Y, MAX_Y);
     }
 
     private void LateUpdate()
     {
         Vector3 dir = new Vector3(0,0,-distance);
-        Quaternion rotation = Quaternion.Euler(currentX, currentY, 0);
+        Quaternion rotation = Quaternion.Euler(currentY, 0, 0);
         camTransform.position = lookAt.position + rotation * dir;
         camTransform.LookAt(lookAt.position);
     }

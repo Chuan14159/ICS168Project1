@@ -37,7 +37,7 @@ public class OfflineThrowerController : MonoBehaviour {
 
     private void SpawnThrowAimer()
     {
-        Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
+        //Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
         Angle += -Input.GetAxis("Mouse ScrollWheel") * AngleSensitivity;
         Angle = Mathf.Clamp(Angle, Min_Angle, Max_Angle);
         Arrow.transform.position = gameObject.transform.position + Vector3.up * 2;
