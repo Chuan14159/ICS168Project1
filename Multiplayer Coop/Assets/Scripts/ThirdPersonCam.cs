@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class ThirdPersonCam : MonoBehaviour {
 
@@ -34,7 +35,7 @@ public class ThirdPersonCam : MonoBehaviour {
     {
         Vector3 dir = new Vector3(0,0,-distance);
         Quaternion rotation = Quaternion.Euler(currentY, 0, 0);
-        camTransform.position = lookAt.position + rotation * dir;
-        camTransform.LookAt(lookAt.position);
+        //camTransform.position = lookAt.position + rotation * dir;
+        //camTransform.LookAt(lookAt.position);
     }
 }

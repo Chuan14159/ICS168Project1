@@ -20,10 +20,11 @@ public class PlayerController : NetworkBehaviour
 
     protected CharacterController _characterController;
     protected Rigidbody _rigidbody;
+    protected FloorDetection floorD;
 
     protected float _fallVelocity;
     protected readonly float _fallVelocityMax = 20f;
-    protected readonly float _forwardMaxSpeed = 5f;
+    protected readonly float _forwardMaxSpeed = 15f;
 
     protected float _forwardSpeed;
 
@@ -33,6 +34,7 @@ public class PlayerController : NetworkBehaviour
     //protected Vector3 _rotationVelocity;
     protected float _rotationVelocity;
 
+    public GameObject playerCam;
     public Color CurrentPlayerColor;
     public SpriteRenderer Direction;
 
@@ -50,16 +52,8 @@ public class PlayerController : NetworkBehaviour
 
     public GameObject Flag;
 
-    public Team team;
-    protected Collider floorDetector;
-    protected List<Collider> floorCollisions;
-    public bool Grounded
-    {
-        get
-        {
-            return floorCollisions.Count > 0;
-        }
-    }
+    public float jumpHeight;
+    //public Team team;
 
     // Use this for initialization
     protected void Awake()
@@ -67,10 +61,7 @@ public class PlayerController : NetworkBehaviour
         _characterController = GetComponent<CharacterController>();
         _characterController.detectCollisions = false;
         _rigidbody = GetComponent<Rigidbody>();
-        floorCollisions = new List<Collider>();
-        floorDetector = GetComponent<Collider>();
-        team = new Team();
-        CurrentPlayerColor = team.Color;
+        floorD = GetComponentInChildren<FloorDetection>();
         
         StartCoroutine(DisplayName());
     }
@@ -88,6 +79,8 @@ public class PlayerController : NetworkBehaviour
     public override void OnStartAuthority()
     {
         base.OnStartAuthority();
+
+        ThirdPersonCam t = Instantiate(playerCam, transform.Find("CamOrigin")).GetComponent<ThirdPersonCam>();
 
         // Change colors
         var color = CurrentPlayerColor;
@@ -118,9 +111,9 @@ public class PlayerController : NetworkBehaviour
         {
             _forwardSpeed = Input.GetAxis("Vertical") * _forwardMaxSpeed;
             _rotationVelocity = Input.GetAxis("Horizontal") * _rotationMaxVelocity;
-            if (Input.GetButtonDown("Jump") && Grounded)
+            if (Input.GetButtonDown("Jump") && floorD.Grounded)
             { 
-                _rigidbody.AddForce(Mathf.Sqrt(2 * 1.1f * -Physics.gravity.y * transform.lossyScale.y) * Vector3.up, ForceMode.VelocityChange);
+                _rigidbody.AddForce(Mathf.Sqrt(jumpHeight * 2 * 1.1f * -Physics.gravity.y * transform.lossyScale.y) * Vector3.up, ForceMode.VelocityChange);
             }
         }
     }
@@ -175,35 +168,11 @@ public class PlayerController : NetworkBehaviour
         Flag.GetComponent<MeshRenderer>().material.color = BmHelper.HexToColor(color);
     }
 
-    protected void OnTriggerEnter(Collider other)
-    {
-        if (!floorCollisions.Contains(other))
-        {
-            floorCollisions.Add(other);
-        }
-    }
-
-    protected void OnTriggerExit(Collider other)
-    {
-        if (floorCollisions.Contains(other))
-        {
-            floorCollisions.Remove(other);
-        }
-    }
-
     protected void OnDestroy()
     {
         // Cleanup the name object
         if (_nameObject != null)
             Destroy(_nameObject);
-
-        foreach (Interactible i in FindObjectsOfType<Interactible>())
-        {
-            if (i.TeamID == team)
-            {
-                Destroy(i.gameObject);
-            }
-        }
     }
 
     public IEnumerator DisplayName()

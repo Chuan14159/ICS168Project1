@@ -18,7 +18,7 @@ public class PlayerTrigger : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        if (picked != null && picked.GetComponent<Interactible>().TeamID.ID == player.GetComponent<PlayerController>().team.ID)
+        if (picked != null)
         {
             if (Input.GetKeyDown(KeyCode.F))
             {

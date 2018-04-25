@@ -49,8 +49,7 @@ public class OfflinePlayerController : MonoBehaviour
 
     public GameObject Flag;
 
-    [SerializeField]
-    private float jumpHeight;
+    public float jumpHeight;
     public Team team;
 
     // Use this for initialization
@@ -91,7 +90,6 @@ public class OfflinePlayerController : MonoBehaviour
             _rotationVelocity = Input.GetAxis("Horizontal") * _rotationMaxVelocity;
             if (Input.GetButtonDown("Jump") && floorD.Grounded)
             {
-                Debug.Log(floorCollisions);
                 _rigidbody.AddForce(Mathf.Sqrt(jumpHeight * 2 * 1.1f * -Physics.gravity.y * transform.lossyScale.y) * Vector3.up, ForceMode.VelocityChange);
             }
         }
