@@ -10,7 +10,7 @@ public class CamControll : MonoBehaviour {
     private Rigidbody _rigidbody;
     private float currentY;
     private readonly float MIN_Y = -20f;
-    private readonly float MAX_Y = 65f;
+    private readonly float MAX_Y = 70f;
     // Update is called once per frame
     private void Start()
     {
@@ -19,8 +19,12 @@ public class CamControll : MonoBehaviour {
         _rigidbody = GetComponent<Rigidbody>();
     }
     void FixedUpdate () {
-        currentY += Input.GetAxis("Mouse Y") * 5.0f;
-        currentY = Mathf.Clamp(currentY, MIN_Y, MAX_Y);
-        transform.rotation = player.transform.rotation * Quaternion.Euler(currentY,0,0);
+        if (Input.GetMouseButton(1))
+        {
+            currentY += Input.GetAxis("Mouse Y") * 5.0f;
+            currentY = Mathf.Clamp(currentY, MIN_Y, MAX_Y);
+            Debug.Log("Mouse Y coor:" + currentY);
+            transform.rotation = player.transform.rotation * Quaternion.Euler(currentY, 0, 0);
+        }
     }
 }

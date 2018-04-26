@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class PlayerTrigger : MonoBehaviour {
+using UnityEngine.Networking;
+public class PlayerTrigger : NetworkBehaviour {
 
     public bool isPicking = false;
     private GameObject picked = null;
@@ -17,7 +17,10 @@ public class PlayerTrigger : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
+        if (!player.GetComponent<PlayerController>().isLocalPlayer)
+            return;
+
         if (picked != null)
         {
             if (Input.GetKeyDown(KeyCode.F))
@@ -34,6 +37,7 @@ public class PlayerTrigger : MonoBehaviour {
             {
                 picked.transform.GetComponent<Rigidbody>().MovePosition(transform.position);
                 picked.transform.GetComponent<Rigidbody>().MoveRotation(transform.rotation);
+                ThrowerController.instance.throwable_Object = picked;
             }
             else if (picked.tag == "Player" && isPickingPlayer)
             {
@@ -72,6 +76,7 @@ public class PlayerTrigger : MonoBehaviour {
         {
             Debug.Log("Player Deleted");
             isPickingPlayer = false;
+            isPicking = false;
             objectStore.Remove(o);
             picked = null;
         }
