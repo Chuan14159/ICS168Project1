@@ -80,7 +80,7 @@ public class PlayerController : NetworkBehaviour
     {
         base.OnStartAuthority();
 
-        ThirdPersonCam t = Instantiate(playerCam, transform.Find("CamOrigin")).GetComponent<ThirdPersonCam>();
+        Instantiate(playerCam, transform.Find("CamOrigin"));
 
         // Change colors
         var color = CurrentPlayerColor;
