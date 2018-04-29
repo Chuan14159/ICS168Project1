@@ -31,13 +31,24 @@ public class PlayerTrigger : NetworkBehaviour {
                     if (!isPickingPlayer)
                         DeletePlayerFromList(picked);
                 }
-                else isPicking = !isPicking;
+                else
+                {
+                    isPicking = !isPicking;
+                }
             }
-            if (picked.tag == "Object" && isPicking)
+            if (picked.tag == "Object")
             {
-                picked.transform.GetComponent<Rigidbody>().MovePosition(transform.position);
-                picked.transform.GetComponent<Rigidbody>().MoveRotation(transform.rotation);
-                ThrowerController.instance.throwable_Object = picked;
+                if (isPicking)
+                {
+                    picked.layer = 8;
+                    picked.transform.GetComponent<Rigidbody>().MovePosition(transform.position);
+                    picked.transform.GetComponent<Rigidbody>().MoveRotation(transform.rotation);
+                    ThrowerController.instance.throwable_Object = picked;
+                }
+                else
+                {
+                    picked.layer = 0;
+                }
             }
             else if (picked.tag == "Player" && isPickingPlayer)
             {
@@ -66,6 +77,7 @@ public class PlayerTrigger : NetworkBehaviour {
                 return;
             objectStore.Remove(other.gameObject);
             isPicking = false;
+            picked.layer = 0;
             picked = null;
         }
     }
