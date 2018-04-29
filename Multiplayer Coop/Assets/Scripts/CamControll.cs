@@ -23,7 +23,7 @@ public class CamControll : MonoBehaviour {
         {
             currentY += Input.GetAxis("Mouse Y") * 5.0f;
             currentY = Mathf.Clamp(currentY, MIN_Y, MAX_Y);
-            Debug.Log("Mouse Y coor:" + currentY);
+            //Debug.Log("Mouse Y coor:" + currentY);
             transform.rotation = player.transform.rotation * Quaternion.Euler(currentY, 0, 0);
         }
     }

@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 114900847832453902}
   - component: {fileID: 114877674772396322}
   - component: {fileID: 54279872481245386}
+  - component: {fileID: 114901222677070604}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -234,7 +235,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1327504081694088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 35.71, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4934768201570674}
@@ -661,7 +662,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Angle: 45
-  PlayerCam: {fileID: 0}
   throwable_Object: {fileID: 1566530861340252, guid: 73bb1e507810d6449a62f56f7be12b53,
     type: 2}
   Player: {fileID: 1327504081694088}
@@ -679,16 +679,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCam: {fileID: 1963056540522876, guid: 6cc8a72dd699eea44818d190de487bc8, type: 2}
-  CurrentPlayerColor: {r: 0, g: 0, b: 0, a: 0}
   Direction: {fileID: 212319941849882560}
-  Name: Player
-  FlagColor: 
-  NamePrefab: {fileID: 114000011193756632, guid: 057c76351036d3146aa7bb6088db1dbe,
-    type: 2}
-  NameTransform: {fileID: 4808131801407262}
   Shape: {fileID: 1771384163350868}
-  Flag: {fileID: 1991665813580654}
   jumpHeight: 3
+--- !u!114 &114901222677070604
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1327504081694088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a659368f33a406c4c97956efc134ed11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: 90
+  high: 2
+  Range: 20
+  camOrigin: {fileID: 1872636552803438}
+  crossHair: {fileID: 114358304491759874, guid: e6bf65abc4a568341adfbcababec9d6d,
+    type: 2}
 --- !u!114 &114917124544175008
 MonoBehaviour:
   m_ObjectHideFlags: 1
