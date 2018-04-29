@@ -1,15 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class ThrowerController : MonoBehaviour {
+using UnityEngine.Networking;
+public class ThrowerController : NetworkBehaviour {
 
     // Use this for initialization
     #region Attributes
     private const float Max_Angle = 90.0f;
     private const float Min_Angle = 0.0f;
     public float Angle;
-    public Camera PlayerCam;
     public GameObject throwable_Object;
     public GameObject Player;
     public GameObject Arrow;
@@ -28,12 +27,19 @@ public class ThrowerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (!isLocalPlayer)
+            return;
         SpawnThrowAimer();
-        if (Input.GetMouseButtonDown(0) && PlayerTrigger.instance.isPickingPlayer && throwable_Object != null)
+        if (Input.GetMouseButtonDown(0) && canThrow() && throwable_Object != null)
         {
             Throw();
         }  
 	}
+
+    private bool canThrow()
+    {
+        return PlayerTrigger.instance.isPickingPlayer || PlayerTrigger.instance.isPicking;
+    }
 
     private void SpawnThrowAimer()
     {
@@ -45,12 +51,25 @@ public class ThrowerController : MonoBehaviour {
     private void Throw()
     {
         GameObject tempObject = throwable_Object;
-        PlayerTrigger.instance.DeletePlayerFromList(tempObject);
-        tempObject.transform.parent.GetComponent<Rigidbody>().AddForce
-        (
+        if (throwable_Object.tag == "Player")
+        {
+            Debug.Log("Throw Player");
+            tempObject.transform.parent.GetComponent<Rigidbody>().AddForce
+            (
                 (tempObject.transform.forward * Mathf.Cos(Mathf.Deg2Rad * Angle) +
                 tempObject.transform.up * Mathf.Sin(Mathf.Deg2Rad * Angle)) * ThrowForce,
-                ForceMode.Impulse
-        );
+                ForceMode.VelocityChange
+            );
+        }
+        else //throw Object.
+        {
+            tempObject.transform.GetComponent<Rigidbody>().AddForce
+            (
+                (tempObject.transform.forward * Mathf.Cos(Mathf.Deg2Rad * Angle) +
+                tempObject.transform.up * Mathf.Sin(Mathf.Deg2Rad * Angle)) * ThrowForce,
+                ForceMode.VelocityChange
+            );
+        }
+        PlayerTrigger.instance.DeletePlayerFromList(tempObject);
     }
 }

@@ -35,22 +35,10 @@ public class PlayerController : NetworkBehaviour
     protected float _rotationVelocity;
 
     public GameObject playerCam;
-    public Color CurrentPlayerColor;
     public SpriteRenderer Direction;
 
-    [SyncVar]
-    public string Name;
-
-    [SyncVar(hook= "OnFlagChange")]
-    public string FlagColor = "";
-
-    protected Text _nameObject;
-    public Text NamePrefab;
-
-    public Transform NameTransform;
     public GameObject Shape;
 
-    public GameObject Flag;
 
     public float jumpHeight;
     //public Team team;
@@ -63,17 +51,6 @@ public class PlayerController : NetworkBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         floorD = GetComponentInChildren<FloorDetection>();
         
-        StartCoroutine(DisplayName());
-    }
-
-    public void Setup(string username)
-    {
-        Name = username;
-    }
-
-    public override void OnStartClient()
-    {
-        SetFlagColor(FlagColor);
     }
 
     public override void OnStartAuthority()
@@ -82,10 +59,6 @@ public class PlayerController : NetworkBehaviour
 
         Instantiate(playerCam, transform.Find("CamOrigin"));
 
-        // Change colors
-        var color = CurrentPlayerColor;
-        Direction.color = new Color(color.r, color.g, color.b, 0.5f);
-        Shape.GetComponent<MeshRenderer>().material.color = color;
 
         // Notify UI
         if (GameUi.Instance != null)
@@ -143,56 +116,6 @@ public class PlayerController : NetworkBehaviour
     public void MoveToRandomSpawnPoint()
     {
         _rigidbody.MovePosition(new Vector3(Random.Range(0f, 4f), 10, Random.Range(0f, 4f)));
-    }
-
-    public void OnFlagChange(string color)
-    {
-        FlagColor = color;
-
-        SetFlagColor(FlagColor);
-    }
-
-    public void SetFlagColor(string color)
-    {
-        if (string.IsNullOrEmpty(color))
-        {
-            // Hide the flag
-            Flag.transform.parent.gameObject.SetActive(false);
-            return;
-        }
-
-        // Display the flag
-        Flag.transform.parent.gameObject.SetActive(true);
-
-        // Inefficient, but works for the demo
-        Flag.GetComponent<MeshRenderer>().material.color = BmHelper.HexToColor(color);
-    }
-
-    protected void OnDestroy()
-    {
-        // Cleanup the name object
-        if (_nameObject != null)
-            Destroy(_nameObject);
-    }
-
-    public IEnumerator DisplayName()
-    {
-        // Create a player name
-        _nameObject = Instantiate(NamePrefab).GetComponent<Text>();
-        _nameObject.text = Name ?? ".";
-        _nameObject.transform.SetParent(FindObjectOfType<Canvas>().transform);
-
-        while (true)
-        {
-            if ((_nameObject.text != Name) && (Name != null))
-                _nameObject.text = Name;
-
-            // While we're still "online"
-            _nameObject.transform.position = RectTransformUtility
-                                                .WorldToScreenPoint(Camera.main, NameTransform.position) + Vector2.up*30;
-
-            yield return 0;
-        }
     }
 
     [ClientRpc]

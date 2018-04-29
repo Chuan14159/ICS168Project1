@@ -49,7 +49,6 @@ public class GameNetworkManager : NetworkManager
         }
 
         NetworkServer.AddPlayerForConnection(connection, player.gameObject, 0);
-        player.Setup(playerName);
 
         return player;
     }

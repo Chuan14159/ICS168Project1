@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
     #region Attributes
+    public int pType;
     [SerializeField]
     private List<GameObject> prefabs;       // The list of game objects to spawn for each team
     #endregion
@@ -30,6 +31,7 @@ public class GameController : MonoBehaviour {
 	// Awake is called before Start
 	private void Awake ()
 	{
+        pType = 0;
         Instance = this;
 	}
 
