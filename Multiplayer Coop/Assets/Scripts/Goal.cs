@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Goal : MonoBehaviour {
+public class Goal : NetworkBehaviour {
     #region Attributes
+    private int playersIn;  // The amount of players in the trigger
 	#endregion
 	
 	#region Properties
@@ -31,9 +33,38 @@ public class Goal : MonoBehaviour {
 
     private void OnTriggerEnter (Collider other)
     {
+        if (!isServer)
+        {
+            return;
+        }
         if (other.CompareTag("Player"))
         {
-            LevelGenerator.Instance.regenerateLevel();
+            ++playersIn;
+            if (playersIn == FindObjectsOfType<PlayerController>().Length)
+            {
+                PlayerController[] p = FindObjectsOfType<PlayerController>();
+                for (int i = 0; i < p.Length; ++i)
+                {
+                    p[i].RpcReset(i);
+                }
+                Interactible[] n = FindObjectsOfType<Interactible>();
+                for (int i = 0; i < n.Length; ++i)
+                {
+                    n[i].transform.position = Vector3.up * (40 + i);
+                }
+            }
+        }
+    }
+
+    private void OnTriggerExit (Collider other)
+    {
+        if (!isServer)
+        {
+            return;
+        }
+        if (other.CompareTag("Player"))
+        {
+            --playersIn;
         }
     }
     #endregion

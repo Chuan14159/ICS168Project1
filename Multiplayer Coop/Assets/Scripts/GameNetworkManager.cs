@@ -6,6 +6,22 @@ using UnityEngine.Networking;
 
 public class GameNetworkManager : NetworkManager
 {
+    public override void OnStartHost()
+    {
+        base.OnStartHost();
+        Instantiate(Resources.Load<GameObject>("Prefabs/Field"));
+    }
+
+    public override void OnStopHost()
+    {
+        base.OnStopHost();
+        Destroy(FindObjectOfType<LevelGenerator>().gameObject);
+        foreach (Interactible i in FindObjectsOfType<Interactible>())
+        {
+            Destroy(i.gameObject);
+        }
+    }
+
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
     {
        SpawnPlayer(conn, "Player", "carrot");

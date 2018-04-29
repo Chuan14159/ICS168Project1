@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class ObjectSpawner : MonoBehaviour {
-
-
+public class ObjectSpawner : NetworkBehaviour {
     public List<GameObject> objects;
 
     private List<GameObject> spawnSet;
@@ -28,7 +27,8 @@ public class ObjectSpawner : MonoBehaviour {
         yield return new WaitForSeconds(1);
         foreach (GameObject o in spawnSet)
         {
-            Instantiate(o, transform.position, Quaternion.identity);
+            GameObject g = Instantiate(o, transform.position, Quaternion.identity);
+            NetworkServer.Spawn(g);
             yield return new WaitForSeconds(0.5f);
         }
     }

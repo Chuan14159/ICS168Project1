@@ -194,4 +194,10 @@ public class PlayerController : NetworkBehaviour
             yield return 0;
         }
     }
+
+    [ClientRpc]
+    public void RpcReset (int i)
+    {
+        transform.position = Vector3.up * (20 + i);
+    }
 }

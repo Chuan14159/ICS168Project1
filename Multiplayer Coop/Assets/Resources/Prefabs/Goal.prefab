@@ -20,11 +20,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4740030710654818}
   - component: {fileID: 33108737746441472}
-  - component: {fileID: 135459774693179002}
   - component: {fileID: 23506528890754958}
   - component: {fileID: 198105073351568690}
   - component: {fileID: 199523246656090652}
   - component: {fileID: 114932337848705030}
+  - component: {fileID: 114259083429141060}
+  - component: {fileID: 65203075468014908}
   m_Layer: 0
   m_Name: Goal
   m_TagString: Untagged
@@ -86,6 +87,50 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1132998251355164}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &65203075468014908
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1132998251355164}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 24, y: 10, z: 24}
+  m_Center: {x: 0, y: -5, z: 0}
+--- !u!114 &114259083429141060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1132998251355164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 203
+    i1: 99
+    i2: 133
+    i3: 255
+    i4: 112
+    i5: 106
+    i6: 167
+    i7: 20
+    i8: 216
+    i9: 161
+    i10: 80
+    i11: 163
+    i12: 133
+    i13: 181
+    i14: 79
+    i15: 153
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114932337848705030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -97,18 +142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dccc1dbf20ee7a4faa6e4a0f8b28cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &135459774693179002
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1132998251355164}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198105073351568690
 ParticleSystem:
   m_ObjectHideFlags: 1

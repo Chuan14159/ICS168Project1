@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -61,6 +62,7 @@ public class LevelGenerator : MonoBehaviour
             {
                 Vector3 position = new Vector3(beginX, 0f, beginZ);
                 GameObject o = Instantiate(floorCube, position, Quaternion.identity);
+                NetworkServer.Spawn(o);
                 tempList.Add(o);
                 //This allows us to have a flat starting point in the middle of the map for players to start at
                 if (i < levelWidth / 2 - startAreaOffset || i > levelWidth / 2 + startAreaOffset || j < levelLength / 2 - startAreaOffset || j > levelLength / 2 + startAreaOffset)
@@ -84,6 +86,7 @@ public class LevelGenerator : MonoBehaviour
         if (highestPointObject != null) {
             Vector3 goalPos = new Vector3(highestPointObject.transform.position.x, highestPointHeight / 2 + 2f, highestPointObject.transform.position.z);
             levelGoal = Instantiate(levelGoal, goalPos, Quaternion.identity);
+            NetworkServer.Spawn(levelGoal);
         }
     }
 
@@ -107,6 +110,8 @@ public class LevelGenerator : MonoBehaviour
         {
             Vector3 position = new Vector3(wallX, 0f, wallZ);
             GameObject o = Instantiate(floorCube, position, Quaternion.identity);
+            NetworkServer.Spawn(o);
+
             o.transform.localScale += new Vector3(0f, wallHeight, 0f);
             o.transform.SetParent(transform);
             wallX += 5f;
@@ -118,6 +123,7 @@ public class LevelGenerator : MonoBehaviour
         {
             Vector3 position = new Vector3(wallX, 0f, wallZ);
             GameObject o = Instantiate(floorCube, position, Quaternion.identity);
+            NetworkServer.Spawn(o);
             o.transform.localScale += new Vector3(0f, wallHeight, 0f);
             o.transform.SetParent(transform);
             wallZ += 5f;
@@ -129,6 +135,7 @@ public class LevelGenerator : MonoBehaviour
         {
             Vector3 position = new Vector3(wallX, 0f, wallZ);
             GameObject o = Instantiate(floorCube, position, Quaternion.identity);
+            NetworkServer.Spawn(o);
             o.transform.localScale += new Vector3(0f, wallHeight, 0f);
             o.transform.SetParent(transform);
             wallX -= 5f;
