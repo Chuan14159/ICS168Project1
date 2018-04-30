@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
     #region Attributes
-    public int pType;
+    private bool instructionOn = false;
+    private int [] pType;
     [SerializeField]
     private List<GameObject> prefabs;       // The list of game objects to spawn for each team
+
+    public Image instruction;
     #endregion
 
     #region Properties
@@ -31,7 +35,7 @@ public class GameController : MonoBehaviour {
 	// Awake is called before Start
 	private void Awake ()
 	{
-        pType = 0;
+        pType = new int[] { 0, 0 };
         Instance = this;
 	}
 
@@ -44,7 +48,11 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	private void Update () 
 	{
-		
+		if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            instructionOn = !instructionOn;
+            instruction.gameObject.SetActive(instructionOn);
+        }
 	}
 	#endregion
 	
