@@ -110,6 +110,10 @@ public class PlayerTrigger : NetworkBehaviour {
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 lift += 0.1f;
+                if(lift > 2)
+                {
+                    lift = 2;
+                }
             }
         }
     }
