@@ -53,7 +53,7 @@ public class PlayerController : NetworkBehaviour
     }
     private void Start()
     {
-        DecideRole(GameController.Instance.AssignRole());
+        //DecideRole(GameController.Instance.AssignRole());
     }
 
     public override void OnStartAuthority()
