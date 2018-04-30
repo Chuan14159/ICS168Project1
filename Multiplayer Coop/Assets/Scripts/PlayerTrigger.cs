@@ -6,6 +6,9 @@ public class PlayerTrigger : NetworkBehaviour {
 
     //public bool isPicking = false;
     public GameObject picked = null;
+    public GameObject trigger = null;
+    private float rotateZ = 0;
+    private float lift = 0;
     //public bool isPickingPlayer = false;
     //private List<GameObject> objectStore;
     public GameObject player;
@@ -15,9 +18,9 @@ public class PlayerTrigger : NetworkBehaviour {
         instance = this;
         //objectStore = new List<GameObject>();
 	}
-	
-	// Update is called once per frame
-	/*void Update () {
+
+    // Update is called once per frame
+    /*void Update () {
         if (!player.GetComponent<PlayerController>().isLocalPlayer)
             return;
 
@@ -61,21 +64,22 @@ public class PlayerTrigger : NetworkBehaviour {
         }
         
     }*/
-
-    private void OnTriggerStay(Collider other)
+    private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            if (picked == null)
+            if (picked == null && trigger != null)
             {
-                if (other.tag == "Player" || other.tag == "Object")
+                if (trigger.tag == "Player" || trigger.tag == "Object")
                 {
-                    picked = other.gameObject;
+                    picked = trigger;
                 }
             }
             else
             {
                 picked = null;
+                rotateZ = 0;
+                lift = 0;
                 return;
             }
         }
@@ -90,11 +94,37 @@ public class PlayerTrigger : NetworkBehaviour {
             }
             else if (picked.tag == "Object")
             {
-                picked.transform.GetComponent<Rigidbody>().MovePosition(transform.position);
-                picked.transform.GetComponent<Rigidbody>().MoveRotation(transform.rotation);
+                Quaternion rotation = Quaternion.Euler(0, 0, rotateZ);
+                picked.transform.GetComponent<Rigidbody>().MoveRotation(transform.rotation * rotation);
+                picked.transform.GetComponent<Rigidbody>().MovePosition(transform.position + transform.up * lift);
                 ThrowerController.instance.throwable_Object = picked;
             }
+            if (Input.GetKey(KeyCode.Q))
+            {
+                rotateZ += 1;
+            }
+            if (Input.GetKey(KeyCode.E))
+            {
+                rotateZ -= 1;
+            }
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                lift += 0.1f;
+            }
         }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Player" || other.tag == "Object")
+        {
+            trigger = other.gameObject;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        trigger = null;
     }
 
     /*private void OnTriggerEnter(Collider other)
