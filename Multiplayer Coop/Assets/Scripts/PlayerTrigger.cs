@@ -33,7 +33,14 @@ public class PlayerTrigger : NetworkBehaviour {
                 }
                 else
                 {
-                    isPicking = !isPicking;
+                    if (picked.GetComponent<Interactible>().canBePickedUp && !isPicking)
+                    {
+                        isPicking = true;
+                    }
+                    else if (isPicking)
+                    {
+                        isPicking = false;
+                    }
                 }
             }
             if (picked.tag == "Object")
@@ -41,6 +48,8 @@ public class PlayerTrigger : NetworkBehaviour {
                 if (isPicking)
                 {
                     picked.layer = 8;
+                    picked.GetComponent<Interactible>().ChangeColor();
+                    picked.GetComponent<Rigidbody>().useGravity = false;
                     picked.transform.GetComponent<Rigidbody>().MovePosition(transform.position);
                     picked.transform.GetComponent<Rigidbody>().MoveRotation(transform.rotation);
                     ThrowerController.instance.throwable_Object = picked;
@@ -48,6 +57,8 @@ public class PlayerTrigger : NetworkBehaviour {
                 else
                 {
                     picked.layer = 0;
+                    picked.GetComponent<Rigidbody>().useGravity = true;
+                    picked.GetComponent<Interactible>().ChangeColor();
                 }
             }
             else if (picked.tag == "Player" && isPickingPlayer)

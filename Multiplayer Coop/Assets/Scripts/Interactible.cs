@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 public class Interactible : NetworkBehaviour {
     #region Attributes
     public static List<GameObject> prefabs;     // A list of game objects to spawn for a team
+    public bool canBePickedUp;                  // Whether the object can be picked up
     [SerializeField]
     protected Team teamID;                      // The team that this object is for
     protected bool set;                         // Whether the object is set or not
@@ -35,6 +36,7 @@ public class Interactible : NetworkBehaviour {
     private void Awake ()
 	{
         set = false;
+        canBePickedUp = true;
         _rigidbody = GetComponent<Rigidbody>();
         _meshRenderer = GetComponent<MeshRenderer>();
 	}
@@ -48,22 +50,24 @@ public class Interactible : NetworkBehaviour {
 	// Update is called once per frame
 	private void Update () 
 	{
-		
+
 	}
 	#endregion
 	
 	#region Methods
-	// Pick up the object
-    public void PickUp (Vector3 startPos)
+    // Change the color of the object
+    public void ChangeColor ()
     {
-        _rigidbody.isKinematic = true;
-        _rigidbody.MovePosition(startPos);
-    }
-
-    // Put down the object
-    public void PutDown ()
-    {
-        _rigidbody.isKinematic = false;
+        if (gameObject.layer == 0)
+        {
+            _meshRenderer.ChangeColor(Color.white);
+            canBePickedUp = true;
+        }
+        else
+        {
+            _meshRenderer.ChangeColor(Color.red);
+            canBePickedUp = false;
+        }
     }
 
     // Set the object parameters
