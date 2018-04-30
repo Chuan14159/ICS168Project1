@@ -84,7 +84,7 @@ public class PlayerTrigger : NetworkBehaviour {
     {
         if (objectStore.Count > 0 && objectStore.Contains(other.gameObject))
         {   
-            if (isPickingPlayer)
+            if (isPickingPlayer || isPicking)
                 return;
             objectStore.Remove(other.gameObject);
             isPicking = false;
