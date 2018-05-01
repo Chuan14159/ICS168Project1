@@ -8,14 +8,15 @@ Description: Block-party is a coop game where players are assigned with differen
 ==================================================================
 Controls:
 Esc - to open instruction of the game.
-Right Mouse - rotate camera horizontally
+Hold Right Mouse and Move Mouse - rotate camera vertically
 
 Classes: 
 Thrower: 
 	Press F - to pick up object/player
 	Left Mouse - to throw object/player
+	Mouse Scroll - control angle of throwing
 
 Levitator: 
 	
-	Press C - to pull object to your position.
+	Press C - to pull object to your position - press again to release
 ==================================================================
