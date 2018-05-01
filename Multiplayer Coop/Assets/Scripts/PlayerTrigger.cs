@@ -88,6 +88,7 @@ public class PlayerTrigger : NetworkBehaviour {
             }
             else
             {
+                picked.transform.GetComponent<Rigidbody>().useGravity = true;
                 picked = null;
                 rotateZ = 0;
                 lift = 0;
@@ -106,6 +107,7 @@ public class PlayerTrigger : NetworkBehaviour {
             else if (picked.tag == "Object")
             {
                 Quaternion rotation = Quaternion.Euler(0, 0, rotateZ);
+                picked.transform.GetComponent<Rigidbody>().useGravity = false;
                 picked.transform.GetComponent<Rigidbody>().MoveRotation(transform.rotation * rotation);
                 picked.transform.GetComponent<Rigidbody>().MovePosition(transform.position + transform.up * lift);
                 ThrowerController.instance.throwable_Object = picked;
