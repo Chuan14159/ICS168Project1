@@ -120,7 +120,12 @@ public class PlayerController : NetworkBehaviour
     [ClientRpc]
     public void RpcReset (int i)
     {
-        transform.position = Vector3.up * (20 + i);
+        transform.position = Vector3.up * (20 + 2 * i);
+    }
+
+    public void ReSpawn (int i)
+    {
+        transform.position = Vector3.up * (20 + 2 * i);
     }
 
     private void DecideRole(int r)

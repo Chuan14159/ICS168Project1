@@ -16,7 +16,7 @@ public class Goal : NetworkBehaviour {
 	// Awake is called before Start
 	private void Awake ()
 	{
-	
+
 	}
 
 	// Use this for initialization
@@ -45,7 +45,14 @@ public class Goal : NetworkBehaviour {
                 PlayerController[] p = FindObjectsOfType<PlayerController>();
                 for (int i = 0; i < p.Length; ++i)
                 {
-                    p[i].RpcReset(i);
+                    if (p[i].isClient)
+                    {
+                        p[i].RpcReset(i);
+                    }
+                    else
+                    {
+                        p[i].ReSpawn(i);
+                    }
                 }
                 Interactible[] n = FindObjectsOfType<Interactible>();
                 for (int i = 0; i < n.Length; ++i)
