@@ -40,6 +40,7 @@ public class PlayerController : NetworkBehaviour
     public GameObject Shape;
     public GameObject [] Players;
     public GameObject Arrow;
+    public GameObject TargetPlayer = null;
 
     public float jumpHeight;
 
@@ -56,7 +57,6 @@ public class PlayerController : NetworkBehaviour
     private void Start()
     {
         Players = GameObject.FindGameObjectsWithTag("Player");
-        Debug.Log(Players.Length);
         DecideRole(Players.Length);
     }
 
@@ -80,22 +80,30 @@ public class PlayerController : NetworkBehaviour
         // Ignore input from other players
         if (!isLocalPlayer)
             return;
+        Debug.Log(TargetPlayer);
 
-        // Input
-        _forwardSpeed = Input.GetAxis("Vertical") * _forwardMaxSpeed;
-        _rotationVelocity = Input.GetAxis("Horizontal") * _rotationMaxVelocity;
-        if (Input.GetButtonDown("Jump") && floorD.Grounded)
-        { 
-            _rigidbody.AddForce(Mathf.Sqrt(jumpHeight * 2 * 1.1f * -Physics.gravity.y * transform.lossyScale.y) * Vector3.up, ForceMode.VelocityChange);
+        if (TargetPlayer != null)
+        {
+            _rigidbody.MovePosition(TargetPlayer.transform.position);
+            _rigidbody.MoveRotation(TargetPlayer.transform.rotation);
+        }
+        else
+        {
+            // Input
+            _forwardSpeed = Input.GetAxis("Vertical") * _forwardMaxSpeed;
+            _rotationVelocity = Input.GetAxis("Horizontal") * _rotationMaxVelocity;
+            if (Input.GetButtonDown("Jump") && floorD.Grounded)
+            {
+                _rigidbody.AddForce(Mathf.Sqrt(jumpHeight * 2 * 1.1f * -Physics.gravity.y * transform.lossyScale.y) * Vector3.up, ForceMode.VelocityChange);
+            }
         }
     }
 
     protected void FixedUpdate()
     {
         // Ignore input from other players
-        if (!isLocalPlayer)
+        if (!isLocalPlayer || TargetPlayer != null)
             return;
-
         UpdateMovement();
     }
 
@@ -135,6 +143,7 @@ public class PlayerController : NetworkBehaviour
     private void DecideRole(int r)
     {
         //yield return new WaitForEndOfFrame();
+
         if (r % 2 == 1)
         {
             GetComponent<TelepathController>().enabled = false;

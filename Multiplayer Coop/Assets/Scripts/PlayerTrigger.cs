@@ -78,7 +78,6 @@ public class PlayerTrigger : NetworkBehaviour {
     }*/
     private void Update()
     {
-        Debug.Log(trigger);
         if (Input.GetKeyDown(KeyCode.F))
         {
             if (picked == null && trigger != null)
@@ -90,6 +89,8 @@ public class PlayerTrigger : NetworkBehaviour {
             }
             else
             {
+                //if(picked.tag == "Player")
+                //    picked.transform.parent.GetComponent<PlayerController>().TargetPlayer = null;
                 picked.transform.GetComponent<Rigidbody>().useGravity = true;
                 picked = null;
                 rotateZ = 0;
@@ -102,6 +103,7 @@ public class PlayerTrigger : NetworkBehaviour {
         {
             if (picked.tag == "Player")
             {
+                picked.transform.parent.GetComponent<PlayerController>().TargetPlayer = gameObject;
                 picked.transform.parent.GetComponent<Rigidbody>().MovePosition(triggerPoint.transform.position - triggerPoint.transform.forward + triggerPoint.transform.up);
                 picked.transform.parent.GetComponent<Rigidbody>().MoveRotation(triggerPoint.transform.rotation);
                 ThrowerController.instance.throwable_Object = picked;
