@@ -14,11 +14,9 @@ public class ThrowerController : NetworkBehaviour {
     public GameObject Arrow;
     public int ThrowForce;
     private int AngleSensitivity = 50;
-    public static ThrowerController instance;
     #endregion
 
     void Start () {
-        instance = this;
         Angle = 45;
         ThrowForce = 45;
         Arrow.transform.position = gameObject.transform.position + Vector3.up * 2;
@@ -54,7 +52,7 @@ public class ThrowerController : NetworkBehaviour {
         if (throwable_Object.tag == "Player")
         {
             Debug.Log("Throw Player");
-            tempObject.transform.GetComponent<PlayerController>().TargetPlayer = null;
+            /*tempObject.transform.GetComponent<PlayerController>().TargetPlayer = null;
             tempObject.transform.GetComponent<Rigidbody>().AddForce
             (
                 (tempObject.transform.forward * Mathf.Cos(Mathf.Deg2Rad * Angle) +
@@ -62,6 +60,15 @@ public class ThrowerController : NetworkBehaviour {
                 ForceMode.VelocityChange
             );
             tempObject.transform.GetComponent<Rigidbody>().useGravity = true;
+            PlayerController p = throwable_Object.GetComponent<PlayerController>();*/
+            if (p.isServer)
+            {
+                p.CmdThrow(Angle, ThrowForce);
+            }
+            else
+            {
+                p.RpcThrow(Angle, ThrowForce);
+            }
         }
         else //throw Object.
         {

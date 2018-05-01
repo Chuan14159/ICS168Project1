@@ -88,9 +88,14 @@ public class PlayerTrigger : NetworkBehaviour {
             }
             if (picked == null && trigger != null)
             {
-                if (trigger.tag == "PlayerShell" || trigger.tag == "Object")
+                if (trigger.tag == "Player" || trigger.tag == "Object")
                 {
                     picked = trigger;
+                    if (trigger.tag == "Player")
+                    {
+                        PlayerController p = trigger.GetComponent<PlayerController>();
+                        p.CmdPickUp(gameObject);
+                    }
                 }
             }
             else
@@ -107,14 +112,15 @@ public class PlayerTrigger : NetworkBehaviour {
 
         if (picked != null)
         {
-            if (picked.tag == "PlayerShell")
+            Debug.Log(picked.name);
+            if (picked.tag == "Player")
             {
                 picked.transform.GetComponent<PlayerController>().SetTarget(gameObject);
                 Debug.Log(picked.transform.GetComponent<PlayerController>().TargetPlayer);
                 picked.transform.GetComponent<Rigidbody>().useGravity = false;
                 picked.transform.GetComponent<Rigidbody>().MovePosition(triggerPoint.transform.position - triggerPoint.transform.forward + triggerPoint.transform.up);
                 picked.transform.GetComponent<Rigidbody>().MoveRotation(triggerPoint.transform.rotation);
-                ThrowerController.instance.throwable_Object = picked;
+                GetComponent<ThrowerController>().throwable_Object = picked;
             }
             else if (picked.tag == "Object")
             {
@@ -122,7 +128,7 @@ public class PlayerTrigger : NetworkBehaviour {
                 picked.transform.GetComponent<Rigidbody>().useGravity = false;
                 picked.transform.GetComponent<Rigidbody>().MoveRotation(triggerPoint.transform.rotation * rotation);
                 picked.transform.GetComponent<Rigidbody>().MovePosition(triggerPoint.transform.position + triggerPoint.transform.up * lift);
-                ThrowerController.instance.throwable_Object = picked;
+                GetComponent<ThrowerController>().throwable_Object = picked;
             }
             if (Input.GetKey(KeyCode.Q))
             {
