@@ -54,14 +54,14 @@ public class ThrowerController : NetworkBehaviour {
         if (throwable_Object.tag == "Player")
         {
             Debug.Log("Throw Player");
-            tempObject.transform.parent.GetComponent<PlayerController>().TargetPlayer = null;
-            tempObject.transform.parent.GetComponent<Rigidbody>().AddForce
+            tempObject.transform.GetComponent<PlayerController>().TargetPlayer = null;
+            tempObject.transform.GetComponent<Rigidbody>().AddForce
             (
                 (tempObject.transform.forward * Mathf.Cos(Mathf.Deg2Rad * Angle) +
                 tempObject.transform.up * Mathf.Sin(Mathf.Deg2Rad * Angle)) * ThrowForce,
                 ForceMode.VelocityChange
             );
-            tempObject.transform.parent.GetComponent<Rigidbody>().useGravity = true;
+            tempObject.transform.GetComponent<Rigidbody>().useGravity = true;
         }
         else //throw Object.
         {

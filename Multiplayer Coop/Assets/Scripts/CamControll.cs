@@ -9,7 +9,7 @@ public class CamControll : MonoBehaviour {
     private OfflinePlayerController _script;
     private Rigidbody _rigidbody;
     private float currentY;
-    private readonly float MIN_Y = -20f;
+    private readonly float MIN_Y = -30f;
     private readonly float MAX_Y = 70f;
     // Update is called once per frame
     private void Start()

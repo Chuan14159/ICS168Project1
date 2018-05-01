@@ -111,6 +111,7 @@ public class PlayerTrigger : NetworkBehaviour {
             {
                 picked.transform.GetComponent<PlayerController>().SetTarget(gameObject);
                 Debug.Log(picked.transform.GetComponent<PlayerController>().TargetPlayer);
+                picked.transform.GetComponent<Rigidbody>().useGravity = false;
                 picked.transform.GetComponent<Rigidbody>().MovePosition(triggerPoint.transform.position - triggerPoint.transform.forward + triggerPoint.transform.up);
                 picked.transform.GetComponent<Rigidbody>().MoveRotation(triggerPoint.transform.rotation);
                 ThrowerController.instance.throwable_Object = picked;

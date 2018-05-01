@@ -641,7 +641,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   force: 90
   high: 2
-  Range: 20
+  Range: 40
   camOrigin: {fileID: 1906020780111726}
   crossHair: {fileID: 114787011283905548}
 --- !u!114 &114185228863430444
