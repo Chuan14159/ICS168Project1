@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 114923770085452578}
   - component: {fileID: 54954321575180542}
   - component: {fileID: 114019935507565918}
+  - component: {fileID: 114965264715606926}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -126,7 +127,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4168105600639252}
   - component: {fileID: 65553450370901240}
-  - component: {fileID: 114877064388295260}
   m_Layer: 9
   m_Name: Trigger
   m_TagString: Untagged
@@ -717,6 +717,8 @@ MonoBehaviour:
   Direction: {fileID: 212320506648996004}
   Shape: {fileID: 1316309326082978}
   Players: []
+  Arrow: {fileID: 1309423339810390}
+  Trigger: {fileID: 1367583602239188}
   jumpHeight: 3
 --- !u!114 &114611806500059880
 MonoBehaviour:
@@ -788,20 +790,6 @@ MonoBehaviour:
     i15: 123
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
---- !u!114 &114877064388295260
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1367583602239188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef68fb6a5453d664aa7d157aad6bdf67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  picked: {fileID: 0}
-  trigger: {fileID: 0}
-  player: {fileID: 1094082966024098}
 --- !u!114 &114923770085452578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -819,6 +807,19 @@ MonoBehaviour:
   Player: {fileID: 1094082966024098}
   Arrow: {fileID: 1309423339810390}
   ThrowForce: 100
+--- !u!114 &114965264715606926
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1094082966024098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef68fb6a5453d664aa7d157aad6bdf67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  picked: {fileID: 0}
+  trigger: {fileID: 0}
 --- !u!114 &114990158028905772
 MonoBehaviour:
   m_ObjectHideFlags: 1

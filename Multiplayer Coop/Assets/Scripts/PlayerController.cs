@@ -39,8 +39,11 @@ public class PlayerController : NetworkBehaviour
 
     public GameObject Shape;
     public GameObject [] Players;
+    public GameObject Arrow;
+    public GameObject Trigger;
 
     public float jumpHeight;
+
     //public Team team;
 
     // Use this for initialization
@@ -136,11 +139,14 @@ public class PlayerController : NetworkBehaviour
         if (r % 2 == 0)
         {
             GetComponent<TelepathController>().enabled = false;
+            GetComponent<TelepathController>().crossHair.enabled = false;
             Debug.Log("Thrower");
         }
         else
         {
             GetComponent<ThrowerController>().enabled = false;
+            GetComponent<PlayerTrigger>().enabled = false;
+            Arrow.SetActive(false);
             Debug.Log("Levitator");
         }
     }

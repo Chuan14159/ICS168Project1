@@ -11,7 +11,7 @@ public class PlayerTrigger : NetworkBehaviour {
     private float lift = 0;
     //public bool isPickingPlayer = false;
     //private List<GameObject> objectStore;
-    public GameObject player;
+    //public GameObject player;
     public static PlayerTrigger instance;
     // Use this for initialization
     void Start () {

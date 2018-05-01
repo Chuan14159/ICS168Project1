@@ -70,6 +70,13 @@ public class TelepathController : NetworkBehaviour {
     IEnumerator getCamera()
     {
         yield return new WaitForEndOfFrame();
-        myCam = camOrigin.transform.GetChild(0);
+        for(int i = 0; i < camOrigin.transform.childCount; i++)
+        {
+            if (camOrigin.transform.GetChild(i).tag == "MainCamera")
+            {
+                myCam = camOrigin.transform.GetChild(i);
+                Debug.Log(myCam.tag);
+            }
+        }
     }
 }

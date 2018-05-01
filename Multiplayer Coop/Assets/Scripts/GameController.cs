@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour {
     #region Attributes
     private bool instructionOn = false;
-    private int [] pType;
+    //private int [] pType;
     [SerializeField]
     private List<GameObject> prefabs;       // The list of game objects to spawn for each team
 
@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour {
 	// Awake is called before Start
 	private void Awake ()
 	{
-        pType = new int[] { 0, 0 };
+        //pType = new int[] { 0, 0 };
         Instance = this;
 	}
 
@@ -70,22 +70,6 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    public int AssignRole()
-    {
-        int role = 0;
-        int temp = 0;
-        for(int i = 0; i < pType.Length; i++)
-        {
-            temp = pType[i];
-            if (temp < pType[i])
-            {
-                role = i;
-                ++pType[i];
-            }
-        }
-        Debug.Log("role" + role);
-        return role;
-    }
     // Restart the game if needed
     public void RestartGame ()
     {
