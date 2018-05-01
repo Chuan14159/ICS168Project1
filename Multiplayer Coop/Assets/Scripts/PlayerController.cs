@@ -38,9 +38,9 @@ public class PlayerController : NetworkBehaviour
     public SpriteRenderer Direction;
 
     public GameObject Shape;
-    public GameObject [] Players;
+    public GameObject[] Players;
     public GameObject Arrow;
-    public GameObject TargetPlayer = null;
+    public Transform TargetPlayer;
 
     public float jumpHeight;
 
@@ -60,11 +60,6 @@ public class PlayerController : NetworkBehaviour
         DecideRole(Players.Length);
     }
 
-    public void SetTarget(GameObject target)
-    {
-        TargetPlayer = target;
-    }
-
     public override void OnStartAuthority()
     {
         base.OnStartAuthority();
@@ -80,7 +75,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     // Update is called once per frame
-    protected void Update ()
+    protected void Update()
     {
         // Ignore input from other players
         if (!isLocalPlayer)
@@ -113,14 +108,14 @@ public class PlayerController : NetworkBehaviour
         UpdateMovement();
     }
 
-    protected void UpdateMovement ()
+    protected void UpdateMovement()
     {
-        Vector3 moveDirection = transform.forward*_forwardSpeed*Time.deltaTime;
+        Vector3 moveDirection = transform.forward * _forwardSpeed * Time.deltaTime;
 
         // Movement update
         _rigidbody.MovePosition(_rigidbody.position + moveDirection);
-        _rigidbody.MoveRotation(Quaternion.Euler(_rigidbody.rotation.eulerAngles + Vector3.up*_rotationVelocity*Time.deltaTime));
-        
+        _rigidbody.MoveRotation(Quaternion.Euler(_rigidbody.rotation.eulerAngles + Vector3.up * _rotationVelocity * Time.deltaTime));
+
         // Death and "respawn"
 
         //_rigidbody.MovePosition(transform.position + Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward);
@@ -136,14 +131,69 @@ public class PlayerController : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcReset (int i)
+    public void RpcReset(int i)
     {
         transform.position = Vector3.up * (20 + 2 * i);
     }
 
-    public void ReSpawn (int i)
+    public void ReSpawn(int i)
     {
         transform.position = Vector3.up * (20 + 2 * i);
+    }
+
+    public void PickUp (GameObject g)
+    {
+        TargetPlayer = g.transform;
+    }
+
+    public void Throw (float Angle, float ThrowForce)
+    {
+        TargetPlayer = null;
+        GetComponent<Rigidbody>().AddForce
+        (
+            (transform.forward * Mathf.Cos(Mathf.Deg2Rad * Angle) +
+            transform.up * Mathf.Sin(Mathf.Deg2Rad * Angle)) * ThrowForce,
+            ForceMode.VelocityChange
+        );
+        GetComponent<Rigidbody>().useGravity = true;
+    }
+
+    [Command]
+    public void CmdPickUp (GameObject g)
+    {
+        TargetPlayer = g.transform;
+    }
+
+    [Command]
+    public void CmdThrow (float Angle, float ThrowForce)
+    {
+        TargetPlayer = null;
+        GetComponent<Rigidbody>().AddForce
+        (
+            (transform.forward * Mathf.Cos(Mathf.Deg2Rad * Angle) +
+            transform.up * Mathf.Sin(Mathf.Deg2Rad * Angle)) * ThrowForce,
+            ForceMode.VelocityChange
+        );
+        GetComponent<Rigidbody>().useGravity = true;
+    }
+
+    [ClientRpc]
+    public void RpcPickUp (GameObject g)
+    {
+        TargetPlayer = g.transform;
+    }
+
+    [ClientRpc]
+    public void RpcThrow(float Angle, float ThrowForce)
+    {
+        TargetPlayer = null;
+        GetComponent<Rigidbody>().AddForce
+        (
+            (transform.forward * Mathf.Cos(Mathf.Deg2Rad * Angle) +
+            transform.up * Mathf.Sin(Mathf.Deg2Rad * Angle)) * ThrowForce,
+            ForceMode.VelocityChange
+        );
+        GetComponent<Rigidbody>().useGravity = true;
     }
 
     private void DecideRole(int r)
