@@ -70,6 +70,22 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    public int AssignRole()
+    {
+        int role = 0;
+        int temp = 0;
+        for(int i = 0; i < pType.Length; i++)
+        {
+            temp = pType[i];
+            if (temp < pType[i])
+            {
+                role = i;
+                ++pType[i];
+            }
+        }
+        Debug.Log("role" + role);
+        return role;
+    }
     // Restart the game if needed
     public void RestartGame ()
     {

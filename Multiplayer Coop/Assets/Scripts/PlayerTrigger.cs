@@ -4,20 +4,23 @@ using UnityEngine;
 using UnityEngine.Networking;
 public class PlayerTrigger : NetworkBehaviour {
 
-    public bool isPicking = false;
-    private GameObject picked = null;
-    public bool isPickingPlayer = false;
-    private List<GameObject> objectStore;
+    //public bool isPicking = false;
+    public GameObject picked = null;
+    public GameObject trigger = null;
+    private float rotateZ = 0;
+    private float lift = 0;
+    //public bool isPickingPlayer = false;
+    //private List<GameObject> objectStore;
     public GameObject player;
     public static PlayerTrigger instance;
     // Use this for initialization
     void Start () {
         instance = this;
-        objectStore = new List<GameObject>();
+        //objectStore = new List<GameObject>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    /*void Update () {
         if (!player.GetComponent<PlayerController>().isLocalPlayer)
             return;
 
@@ -41,6 +44,8 @@ public class PlayerTrigger : NetworkBehaviour {
                     {
                         isPicking = false;
                     }
+                    if (!isPicking)
+                        DeletePlayerFromList(picked);
                 }
             }
             if (picked.tag == "Object")
@@ -68,9 +73,76 @@ public class PlayerTrigger : NetworkBehaviour {
                 ThrowerController.instance.throwable_Object = picked;
             }
         }
+        
+    }*/
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (picked == null && trigger != null)
+            {
+                if (trigger.tag == "Player" || trigger.tag == "Object")
+                {
+                    picked = trigger;
+                }
+            }
+            else
+            {
+                picked = null;
+                rotateZ = 0;
+                lift = 0;
+                return;
+            }
+        }
+
+        if (picked != null)
+        {
+            if (picked.tag == "Player")
+            {
+                picked.transform.parent.GetComponent<Rigidbody>().MovePosition(transform.position - transform.forward + transform.up);
+                picked.transform.parent.GetComponent<Rigidbody>().MoveRotation(transform.rotation);
+                ThrowerController.instance.throwable_Object = picked;
+            }
+            else if (picked.tag == "Object")
+            {
+                Quaternion rotation = Quaternion.Euler(0, 0, rotateZ);
+                picked.transform.GetComponent<Rigidbody>().MoveRotation(transform.rotation * rotation);
+                picked.transform.GetComponent<Rigidbody>().MovePosition(transform.position + transform.up * lift);
+                ThrowerController.instance.throwable_Object = picked;
+            }
+            if (Input.GetKey(KeyCode.Q))
+            {
+                rotateZ += 1;
+            }
+            if (Input.GetKey(KeyCode.E))
+            {
+                rotateZ -= 1;
+            }
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                lift += 0.1f;
+                if(lift > 2)
+                {
+                    lift = 2;
+                }
+            }
+        }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Player" || other.tag == "Object")
+        {
+            trigger = other.gameObject;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        trigger = null;
+    }
+
+    /*private void OnTriggerEnter(Collider other)
     {
         if ((other.tag == "Object" || other.tag == "Player") && !objectStore.Contains(other.gameObject))
         {
@@ -103,31 +175,6 @@ public class PlayerTrigger : NetworkBehaviour {
             objectStore.Remove(o);
             picked = null;
         }
-    }
-    /*private void OnTriggerStay(Collider other)
-    {
-        //Debug.Log(isPicking);
-        if (other.tag != "Object" || other.GetComponent<Interactible>().TeamID == null)
-        {
-            return;
-        }
-
-        if(other.GetComponent<Interactible>().TeamID.ID == player.GetComponent<PlayerController>().team.ID)
-        {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                isPicking = !isPicking;
-                if (isPicking)
-                {
-                    picked = other.gameObject;
-                }
-            }
-            if (isPicking)
-            {
-                //Debug.Log("picking");
-                picked.transform.position = transform.position;
-                picked.transform.rotation = transform.rotation;
-            }
-        }      
     }*/
+
 }

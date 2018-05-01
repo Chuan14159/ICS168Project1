@@ -50,7 +50,10 @@ public class PlayerController : NetworkBehaviour
         _characterController.detectCollisions = false;
         _rigidbody = GetComponent<Rigidbody>();
         floorD = GetComponentInChildren<FloorDetection>();
-        
+    }
+    private void Start()
+    {
+        //DecideRole(GameController.Instance.AssignRole());
     }
 
     public override void OnStartAuthority()
@@ -75,19 +78,11 @@ public class PlayerController : NetworkBehaviour
             return;
 
         // Input
-        if (GameUi.Instance != null && GameUi.Instance.IsAutoWalk)
-        {
-            _forwardSpeed = 0.7f * _forwardMaxSpeed;
-            _rotationVelocity = 0.3f * _rotationMaxVelocity;
-        }
-        else
-        {
-            _forwardSpeed = Input.GetAxis("Vertical") * _forwardMaxSpeed;
-            _rotationVelocity = Input.GetAxis("Horizontal") * _rotationMaxVelocity;
-            if (Input.GetButtonDown("Jump") && floorD.Grounded)
-            { 
-                _rigidbody.AddForce(Mathf.Sqrt(jumpHeight * 2 * 1.1f * -Physics.gravity.y * transform.lossyScale.y) * Vector3.up, ForceMode.VelocityChange);
-            }
+        _forwardSpeed = Input.GetAxis("Vertical") * _forwardMaxSpeed;
+        _rotationVelocity = Input.GetAxis("Horizontal") * _rotationMaxVelocity;
+        if (Input.GetButtonDown("Jump") && floorD.Grounded)
+        { 
+            _rigidbody.AddForce(Mathf.Sqrt(jumpHeight * 2 * 1.1f * -Physics.gravity.y * transform.lossyScale.y) * Vector3.up, ForceMode.VelocityChange);
         }
     }
 
@@ -102,13 +97,17 @@ public class PlayerController : NetworkBehaviour
 
     protected void UpdateMovement ()
     {
-        var moveDirection = transform.forward*_forwardSpeed*Time.deltaTime;
+        Vector3 moveDirection = transform.forward*_forwardSpeed*Time.deltaTime;
 
         // Movement update
         _rigidbody.MovePosition(_rigidbody.position + moveDirection);
         _rigidbody.MoveRotation(Quaternion.Euler(_rigidbody.rotation.eulerAngles + Vector3.up*_rotationVelocity*Time.deltaTime));
-
+        
         // Death and "respawn"
+
+        //_rigidbody.MovePosition(transform.position + Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward);
+
+        //_rigidbody.MoveRotation(Quaternion.Euler(_rigidbody.rotation.eulerAngles + Vector3.up * _rotationVelocity * Time.deltaTime));
         if (_rigidbody.position.y < _yDeathValue)
             MoveToRandomSpawnPoint();
     }
@@ -122,5 +121,14 @@ public class PlayerController : NetworkBehaviour
     public void RpcReset (int i)
     {
         transform.position = Vector3.up * (20 + i);
+    }
+
+    private void DecideRole(int r)
+    {
+        //yield return new WaitForEndOfFrame();
+        if (r == 0)
+            GetComponent<TelepathController>().enabled = false;
+        else
+            GetComponent<ThrowerController>().enabled = false;
     }
 }

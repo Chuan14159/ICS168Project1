@@ -38,7 +38,7 @@ public class ThrowerController : NetworkBehaviour {
 
     private bool canThrow()
     {
-        return PlayerTrigger.instance.isPickingPlayer || PlayerTrigger.instance.isPicking;
+        return /*PlayerTrigger.instance.isPickingPlayer ||*/ PlayerTrigger.instance.picked != null;
     }
 
     private void SpawnThrowAimer()
@@ -70,6 +70,7 @@ public class ThrowerController : NetworkBehaviour {
                 ForceMode.VelocityChange
             );
         }
-        PlayerTrigger.instance.DeletePlayerFromList(tempObject);
+        //PlayerTrigger.instance.DeletePlayerFromList(tempObject);
+        PlayerTrigger.instance.picked = null;
     }
 }
