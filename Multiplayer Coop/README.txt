@@ -2,6 +2,7 @@
 
 
 Game: Block-party
+Team: TEKC
 ==================================================================
 Description: Block-party is a coop game where players are assigned with different classes to help each other reach the goal.
 
