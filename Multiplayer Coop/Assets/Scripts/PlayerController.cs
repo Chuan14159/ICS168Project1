@@ -60,6 +60,11 @@ public class PlayerController : NetworkBehaviour
         DecideRole(Players.Length);
     }
 
+    public void SetTarget(GameObject target)
+    {
+        TargetPlayer = target;
+    }
+
     public override void OnStartAuthority()
     {
         base.OnStartAuthority();
@@ -84,7 +89,8 @@ public class PlayerController : NetworkBehaviour
 
         if (TargetPlayer != null)
         {
-            _rigidbody.MovePosition(TargetPlayer.transform.position);
+            Debug.Log(TargetPlayer);
+            _rigidbody.MovePosition((TargetPlayer.transform.position + Vector3.up * 2) + TargetPlayer.transform.forward);
             _rigidbody.MoveRotation(TargetPlayer.transform.rotation);
         }
         else

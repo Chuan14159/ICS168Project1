@@ -78,6 +78,8 @@ public class PlayerTrigger : NetworkBehaviour {
     }*/
     private void Update()
     {
+        if (!isLocalPlayer)
+            return;
         if (Input.GetKeyDown(KeyCode.F))
         {
             if(picked == null && trigger == null)
@@ -86,7 +88,7 @@ public class PlayerTrigger : NetworkBehaviour {
             }
             if (picked == null && trigger != null)
             {
-                if (trigger.tag == "Player" || trigger.tag == "Object")
+                if (trigger.tag == "PlayerShell" || trigger.tag == "Object")
                 {
                     picked = trigger;
                 }
@@ -105,11 +107,12 @@ public class PlayerTrigger : NetworkBehaviour {
 
         if (picked != null)
         {
-            if (picked.tag == "Player")
+            if (picked.tag == "PlayerShell")
             {
-                picked.transform.parent.GetComponent<PlayerController>().TargetPlayer = gameObject;
-                picked.transform.parent.GetComponent<Rigidbody>().MovePosition(triggerPoint.transform.position - triggerPoint.transform.forward + triggerPoint.transform.up);
-                picked.transform.parent.GetComponent<Rigidbody>().MoveRotation(triggerPoint.transform.rotation);
+                picked.transform.GetComponent<PlayerController>().SetTarget(gameObject);
+                Debug.Log(picked.transform.GetComponent<PlayerController>().TargetPlayer);
+                picked.transform.GetComponent<Rigidbody>().MovePosition(triggerPoint.transform.position - triggerPoint.transform.forward + triggerPoint.transform.up);
+                picked.transform.GetComponent<Rigidbody>().MoveRotation(triggerPoint.transform.rotation);
                 ThrowerController.instance.throwable_Object = picked;
             }
             else if (picked.tag == "Object")
@@ -152,6 +155,7 @@ public class PlayerTrigger : NetworkBehaviour {
         if (other.tag == "Player" || other.tag == "Object")
         {
             trigger = other.transform.parent.gameObject;
+            //Debug.Log(other.tag);
         }
     }
 
