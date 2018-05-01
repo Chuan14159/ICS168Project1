@@ -13,7 +13,7 @@ public class ObjectSpawner : NetworkBehaviour {
 	// Use this for initialization
 	void Start () {
         spawnSet = new List<GameObject>();
-        for (int i = 0; i < 5; i++){
+        for (int i = 0; i < 3; i++){
             int j = Random.Range(0, objects.Count);
             spawnSet.Add(objects[j]);
         }
@@ -25,6 +25,12 @@ public class ObjectSpawner : NetworkBehaviour {
 
     IEnumerator Spawn(){
         yield return new WaitForSeconds(1);
+        foreach (GameObject o in objects)
+        {
+            GameObject g = Instantiate(o, transform.position, Quaternion.identity);
+            NetworkServer.Spawn(g);
+            yield return new WaitForSeconds(0.5f);
+        }
         foreach (GameObject o in spawnSet)
         {
             GameObject g = Instantiate(o, transform.position, Quaternion.identity);
