@@ -13,10 +13,8 @@ public class PlayerTrigger : NetworkBehaviour {
     //public bool isPickingPlayer = false;
     //private List<GameObject> objectStore;
     //public GameObject player;
-    public static PlayerTrigger instance;
     // Use this for initialization
     void Start () {
-        instance = this;
         //objectStore = new List<GameObject>();
 	}
 
@@ -93,8 +91,7 @@ public class PlayerTrigger : NetworkBehaviour {
                     picked = trigger;
                     if (trigger.tag == "Player")
                     {
-                        PlayerController p = trigger.GetComponent<PlayerController>();
-                        p.CmdPickUp(gameObject);
+                        GetComponent<PlayerController>().CmdPickUp(trigger, gameObject);
                     }
                 }
             }

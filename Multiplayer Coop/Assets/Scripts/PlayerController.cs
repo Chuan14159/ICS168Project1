@@ -38,7 +38,6 @@ public class PlayerController : NetworkBehaviour
     public SpriteRenderer Direction;
 
     public GameObject Shape;
-    public GameObject[] Players;
     public GameObject Arrow;
     public Transform TargetPlayer;
 
@@ -54,18 +53,13 @@ public class PlayerController : NetworkBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         floorD = GetComponentInChildren<FloorDetection>();
     }
-    private void Start()
-    {
-        Players = GameObject.FindGameObjectsWithTag("Player");
-        DecideRole(Players.Length);
-    }
 
     public override void OnStartAuthority()
     {
         base.OnStartAuthority();
 
         Instantiate(playerCam, transform.Find("CamOrigin"));
-
+        DecideRole(FindObjectsOfType<PlayerController>().Length);
 
         // Notify UI
         if (GameUi.Instance != null)
@@ -80,7 +74,6 @@ public class PlayerController : NetworkBehaviour
         // Ignore input from other players
         if (!isLocalPlayer)
             return;
-        Debug.Log(TargetPlayer);
 
         if (TargetPlayer != null)
         {
@@ -141,50 +134,26 @@ public class PlayerController : NetworkBehaviour
         transform.position = Vector3.up * (20 + 2 * i);
     }
 
-    public void PickUp (GameObject g)
+    [Command]
+    public void CmdPickUp (GameObject p, GameObject g)
     {
-        TargetPlayer = g.transform;
-    }
-
-    public void Throw (float Angle, float ThrowForce)
-    {
-        TargetPlayer = null;
-        GetComponent<Rigidbody>().AddForce
-        (
-            (transform.forward * Mathf.Cos(Mathf.Deg2Rad * Angle) +
-            transform.up * Mathf.Sin(Mathf.Deg2Rad * Angle)) * ThrowForce,
-            ForceMode.VelocityChange
-        );
-        GetComponent<Rigidbody>().useGravity = true;
+        p.GetComponent<PlayerController>().RpcBePickedUp(g);
     }
 
     [Command]
-    public void CmdPickUp (GameObject g)
+    public void CmdThrow (GameObject p, float Angle, float ThrowForce)
     {
-        TargetPlayer = g.transform;
-    }
-
-    [Command]
-    public void CmdThrow (float Angle, float ThrowForce)
-    {
-        TargetPlayer = null;
-        GetComponent<Rigidbody>().AddForce
-        (
-            (transform.forward * Mathf.Cos(Mathf.Deg2Rad * Angle) +
-            transform.up * Mathf.Sin(Mathf.Deg2Rad * Angle)) * ThrowForce,
-            ForceMode.VelocityChange
-        );
-        GetComponent<Rigidbody>().useGravity = true;
+        p.GetComponent<PlayerController>().RpcBeThrown(Angle, ThrowForce);   
     }
 
     [ClientRpc]
-    public void RpcPickUp (GameObject g)
+    public void RpcBePickedUp (GameObject g)
     {
         TargetPlayer = g.transform;
     }
 
     [ClientRpc]
-    public void RpcThrow(float Angle, float ThrowForce)
+    public void RpcBeThrown (float Angle, float ThrowForce)
     {
         TargetPlayer = null;
         GetComponent<Rigidbody>().AddForce
@@ -199,19 +168,16 @@ public class PlayerController : NetworkBehaviour
     private void DecideRole(int r)
     {
         //yield return new WaitForEndOfFrame();
-
         if (r % 2 == 1)
         {
             GetComponent<TelepathController>().enabled = false;
             GetComponent<TelepathController>().crossHair.enabled = false;
-            Debug.Log("Thrower");
         }
         else
         {
             GetComponent<ThrowerController>().enabled = false;
             GetComponent<PlayerTrigger>().enabled = false;
             Arrow.SetActive(false);
-            Debug.Log("Levitator");
         }
     }
 }

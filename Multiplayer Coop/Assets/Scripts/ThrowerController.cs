@@ -36,7 +36,7 @@ public class ThrowerController : NetworkBehaviour {
 
     private bool canThrow()
     {
-        return /*PlayerTrigger.instance.isPickingPlayer ||*/ PlayerTrigger.instance.picked != null;
+        return /*PlayerTrigger.instance.isPickingPlayer ||*/ GetComponent<PlayerTrigger>().picked != null;
     }
 
     private void SpawnThrowAimer()
@@ -52,15 +52,7 @@ public class ThrowerController : NetworkBehaviour {
         if (throwable_Object.tag == "Player")
         {
             Debug.Log("Throw Player");
-            PlayerController p = throwable_Object.GetComponent<PlayerController>();
-            if (p.isServer)
-            {
-                p.CmdThrow(Angle, ThrowForce);
-            }
-            else
-            {
-                p.RpcThrow(Angle, ThrowForce);
-            }
+            GetComponent<PlayerController>().CmdThrow(throwable_Object, Angle, ThrowForce);
         }
         else //throw Object.
         {
@@ -73,6 +65,6 @@ public class ThrowerController : NetworkBehaviour {
             tempObject.GetComponent<Rigidbody>().useGravity = true;
         }
         //PlayerTrigger.instance.DeletePlayerFromList(tempObject);
-        PlayerTrigger.instance.picked = null;
+        GetComponent<PlayerTrigger>().picked = null;
     }
 }
