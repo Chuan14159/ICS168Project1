@@ -13,10 +13,8 @@ public class PlayerTrigger : NetworkBehaviour {
     //public bool isPickingPlayer = false;
     //private List<GameObject> objectStore;
     //public GameObject player;
-    public static PlayerTrigger instance;
     // Use this for initialization
     void Start () {
-        instance = this;
         //objectStore = new List<GameObject>();
 	}
 
@@ -93,8 +91,7 @@ public class PlayerTrigger : NetworkBehaviour {
                     picked = trigger;
                     if (trigger.tag == "Player")
                     {
-                        PlayerController p = trigger.GetComponent<PlayerController>();
-                        p.CmdPickUp(gameObject);
+                        GetComponent<PlayerController>().CmdPickUp(trigger, gameObject);
                     }
                 }
             }
@@ -115,11 +112,6 @@ public class PlayerTrigger : NetworkBehaviour {
             Debug.Log(picked.name);
             if (picked.tag == "Player")
             {
-                picked.transform.GetComponent<PlayerController>().SetTarget(gameObject);
-                Debug.Log(picked.transform.GetComponent<PlayerController>().TargetPlayer);
-                picked.transform.GetComponent<Rigidbody>().useGravity = false;
-                picked.transform.GetComponent<Rigidbody>().MovePosition(triggerPoint.transform.position - triggerPoint.transform.forward + triggerPoint.transform.up);
-                picked.transform.GetComponent<Rigidbody>().MoveRotation(triggerPoint.transform.rotation);
                 GetComponent<ThrowerController>().throwable_Object = picked;
             }
             else if (picked.tag == "Object")
