@@ -242,7 +242,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1367583602239188}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.02, z: 1.05}
+  m_LocalPosition: {x: 0, y: 1, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4384864054965564}
@@ -716,6 +716,7 @@ MonoBehaviour:
   playerCam: {fileID: 1963056540522876, guid: 6cc8a72dd699eea44818d190de487bc8, type: 2}
   Direction: {fileID: 212320506648996004}
   Shape: {fileID: 1316309326082978}
+  Players: []
   jumpHeight: 3
 --- !u!114 &114611806500059880
 MonoBehaviour:

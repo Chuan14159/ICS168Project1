@@ -38,7 +38,7 @@ public class PlayerController : NetworkBehaviour
     public SpriteRenderer Direction;
 
     public GameObject Shape;
-
+    public GameObject [] Players;
 
     public float jumpHeight;
     //public Team team;
@@ -53,7 +53,9 @@ public class PlayerController : NetworkBehaviour
     }
     private void Start()
     {
-        //DecideRole(GameController.Instance.AssignRole());
+        Players = GameObject.FindGameObjectsWithTag("Player");
+        Debug.Log(Players.Length);
+        DecideRole(Players.Length);
     }
 
     public override void OnStartAuthority()
@@ -131,9 +133,15 @@ public class PlayerController : NetworkBehaviour
     private void DecideRole(int r)
     {
         //yield return new WaitForEndOfFrame();
-        if (r == 0)
+        if (r % 2 == 0)
+        {
             GetComponent<TelepathController>().enabled = false;
+            Debug.Log("Thrower");
+        }
         else
+        {
             GetComponent<ThrowerController>().enabled = false;
+            Debug.Log("Levitator");
+        }
     }
 }
