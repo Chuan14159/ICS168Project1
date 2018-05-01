@@ -13,6 +13,9 @@ Hold Right Mouse and Move Mouse - rotate camera vertically
 Classes: 
 Thrower: 
 	Press F - to pick up object/player
+	Hold Q - to rotate object counterclockwise
+	Hold E - to rotate object clockwise
+	Hold Left Shift - to lift the object upward
 	Left Mouse - to throw object/player
 	Mouse Scroll - control angle of throwing
 
