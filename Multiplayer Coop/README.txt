@@ -8,6 +8,7 @@ Description: Block-party is a coop game where players are assigned with differen
 ==================================================================
 Controls:
 Esc - to open instruction of the game.
+Right Mouse - rotate camera horizontally
 
 Classes: 
 Thrower: 
