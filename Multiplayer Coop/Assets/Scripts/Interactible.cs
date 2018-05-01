@@ -55,21 +55,6 @@ public class Interactible : NetworkBehaviour {
 	#endregion
 	
 	#region Methods
-    // Change the color of the object
-    public void ChangeColor ()
-    {
-        if (gameObject.layer == 0)
-        {
-            _meshRenderer.ChangeColor(Color.white);
-            canBePickedUp = true;
-        }
-        else
-        {
-            _meshRenderer.ChangeColor(Color.red);
-            canBePickedUp = false;
-        }
-    }
-
     // Set the object parameters
     public void SetObject (Team team)
     {

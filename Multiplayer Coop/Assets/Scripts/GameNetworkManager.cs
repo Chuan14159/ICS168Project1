@@ -6,15 +6,15 @@ using UnityEngine.Networking;
 
 public class GameNetworkManager : NetworkManager
 {
-    public override void OnStartHost()
+    public override void OnStartServer()
     {
-        base.OnStartHost();
+        base.OnStartServer();
         Instantiate(Resources.Load<GameObject>("Prefabs/Field"));
     }
 
-    public override void OnStopHost()
+    public override void OnStopServer()
     {
-        base.OnStopHost();
+        base.OnStopServer();
         Destroy(FindObjectOfType<LevelGenerator>().gameObject);
         foreach (Interactible i in FindObjectsOfType<Interactible>())
         {
