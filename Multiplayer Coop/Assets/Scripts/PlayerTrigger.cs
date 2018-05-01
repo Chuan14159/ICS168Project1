@@ -9,6 +9,7 @@ public class PlayerTrigger : NetworkBehaviour {
     public GameObject trigger = null;
     private float rotateZ = 0;
     private float lift = 0;
+    public GameObject triggerPoint;
     //public bool isPickingPlayer = false;
     //private List<GameObject> objectStore;
     //public GameObject player;
@@ -77,6 +78,7 @@ public class PlayerTrigger : NetworkBehaviour {
     }*/
     private void Update()
     {
+        Debug.Log(trigger);
         if (Input.GetKeyDown(KeyCode.F))
         {
             if (picked == null && trigger != null)
@@ -100,16 +102,16 @@ public class PlayerTrigger : NetworkBehaviour {
         {
             if (picked.tag == "Player")
             {
-                picked.transform.parent.GetComponent<Rigidbody>().MovePosition(transform.position - transform.forward + transform.up);
-                picked.transform.parent.GetComponent<Rigidbody>().MoveRotation(transform.rotation);
+                picked.transform.parent.GetComponent<Rigidbody>().MovePosition(triggerPoint.transform.position - triggerPoint.transform.forward + triggerPoint.transform.up);
+                picked.transform.parent.GetComponent<Rigidbody>().MoveRotation(triggerPoint.transform.rotation);
                 ThrowerController.instance.throwable_Object = picked;
             }
             else if (picked.tag == "Object")
             {
                 Quaternion rotation = Quaternion.Euler(0, 0, rotateZ);
                 picked.transform.GetComponent<Rigidbody>().useGravity = false;
-                picked.transform.GetComponent<Rigidbody>().MoveRotation(transform.rotation * rotation);
-                picked.transform.GetComponent<Rigidbody>().MovePosition(transform.position + transform.up * lift);
+                picked.transform.GetComponent<Rigidbody>().MoveRotation(triggerPoint.transform.rotation * rotation);
+                picked.transform.GetComponent<Rigidbody>().MovePosition(triggerPoint.transform.position + triggerPoint.transform.up * lift);
                 ThrowerController.instance.throwable_Object = picked;
             }
             if (Input.GetKey(KeyCode.Q))

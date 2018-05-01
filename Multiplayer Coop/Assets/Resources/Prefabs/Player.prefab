@@ -718,7 +718,6 @@ MonoBehaviour:
   Shape: {fileID: 1316309326082978}
   Players: []
   Arrow: {fileID: 1309423339810390}
-  Trigger: {fileID: 1367583602239188}
   jumpHeight: 3
 --- !u!114 &114611806500059880
 MonoBehaviour:
@@ -820,6 +819,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   picked: {fileID: 0}
   trigger: {fileID: 0}
+  triggerPoint: {fileID: 1367583602239188}
 --- !u!114 &114990158028905772
 MonoBehaviour:
   m_ObjectHideFlags: 1

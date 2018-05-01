@@ -59,7 +59,7 @@ public class ThrowerController : NetworkBehaviour {
                 (tempObject.transform.forward * Mathf.Cos(Mathf.Deg2Rad * Angle) +
                 tempObject.transform.up * Mathf.Sin(Mathf.Deg2Rad * Angle)) * ThrowForce,
                 ForceMode.VelocityChange
-            );
+            ); 
         }
         else //throw Object.
         {
@@ -70,6 +70,7 @@ public class ThrowerController : NetworkBehaviour {
                 ForceMode.VelocityChange
             );
         }
+        tempObject.GetComponent<Rigidbody>().useGravity = true;
         //PlayerTrigger.instance.DeletePlayerFromList(tempObject);
         PlayerTrigger.instance.picked = null;
     }

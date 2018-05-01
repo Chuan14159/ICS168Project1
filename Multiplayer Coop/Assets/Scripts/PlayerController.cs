@@ -40,7 +40,6 @@ public class PlayerController : NetworkBehaviour
     public GameObject Shape;
     public GameObject [] Players;
     public GameObject Arrow;
-    public GameObject Trigger;
 
     public float jumpHeight;
 
@@ -136,7 +135,7 @@ public class PlayerController : NetworkBehaviour
     private void DecideRole(int r)
     {
         //yield return new WaitForEndOfFrame();
-        if (r % 2 == 0)
+        if (r % 2 == 1)
         {
             GetComponent<TelepathController>().enabled = false;
             GetComponent<TelepathController>().crossHair.enabled = false;
