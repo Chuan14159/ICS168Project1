@@ -8,7 +8,7 @@ public class PlayerTrigger : NetworkBehaviour {
     public GameObject picked = null;
     public GameObject trigger = null;
     private float rotateZ = 0;
-    private float lift = 0;
+    private float lift = 1;
     public GameObject triggerPoint;
     //public bool isPickingPlayer = false;
     //private List<GameObject> objectStore;
@@ -78,9 +78,12 @@ public class PlayerTrigger : NetworkBehaviour {
     }*/
     private void Update()
     {
-        Debug.Log(trigger);
         if (Input.GetKeyDown(KeyCode.F))
         {
+            if(picked == null && trigger == null)
+            {
+                return;
+            }
             if (picked == null && trigger != null)
             {
                 if (trigger.tag == "Player" || trigger.tag == "Object")
@@ -93,7 +96,7 @@ public class PlayerTrigger : NetworkBehaviour {
                 picked.transform.GetComponent<Rigidbody>().useGravity = true;
                 picked = null;
                 rotateZ = 0;
-                lift = 0;
+                lift = 1;
                 return;
             }
         }
@@ -116,18 +119,26 @@ public class PlayerTrigger : NetworkBehaviour {
             }
             if (Input.GetKey(KeyCode.Q))
             {
-                rotateZ += 1;
+                rotateZ += 2;
+                if(rotateZ > 90)
+                {
+                    rotateZ = 90;
+                }
             }
             if (Input.GetKey(KeyCode.E))
             {
-                rotateZ -= 1;
+                rotateZ -= 2;
+                if (rotateZ < -90)
+                {
+                    rotateZ = -90;
+                }
             }
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 lift += 0.1f;
-                if(lift > 2)
+                if(lift > 4)
                 {
-                    lift = 2;
+                    lift = 4;
                 }
             }
         }
@@ -137,7 +148,7 @@ public class PlayerTrigger : NetworkBehaviour {
     {
         if (other.tag == "Player" || other.tag == "Object")
         {
-            trigger = other.gameObject;
+            trigger = other.transform.parent.gameObject;
         }
     }
 
